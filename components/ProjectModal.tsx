@@ -62,9 +62,9 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
                 href={project.link_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium underline underline-offset-4"
+                className="rounded-full bg-ink text-paper px-6 py-2.5 text-sm font-medium hover:opacity-80 transition-opacity"
               >
-                View project ↗
+                {project.link_label ?? "View Project"} ↗
               </a>
             ) : (
               <span />
