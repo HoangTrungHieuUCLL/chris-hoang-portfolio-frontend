@@ -8,6 +8,9 @@ export type Project = {
   organization: string | null;
   year: string;
   link_url: string | null;
+  image_url: string | null;
+  image_credit_name: string | null;
+  image_credit_url: string | null;
   featured: boolean;
 };
 

@@ -18,3 +18,12 @@ body {
 .section-pad {
   @apply px-6 sm:px-10 lg:px-0;
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
