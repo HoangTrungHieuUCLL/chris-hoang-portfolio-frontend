@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: `${profile.name} — ${profile.title}`,
   description: profile.tagline,
   metadataBase: new URL("https://chrishoang.dev"),
+  icons: { icon: "/favicon.svg" },
   openGraph: {
     title: `${profile.name} — ${profile.title}`,
     description: profile.tagline,
