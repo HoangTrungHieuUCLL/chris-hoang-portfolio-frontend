@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { profile } from "@/lib/content";
 
 const links = [
@@ -12,21 +9,8 @@ const links = [
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-paper/80 backdrop-blur-md border-b border-line" : "bg-transparent"
-      }`}
-    >
+    <header className="fixed top-0 inset-x-0 z-50 bg-paper/70 backdrop-blur-md border-b border-line/70">
       <nav className="max-w-content mx-auto flex items-center justify-between h-14 section-pad">
         <a href="#top" className="text-[15px] font-semibold tracking-tight">
           {profile.name}

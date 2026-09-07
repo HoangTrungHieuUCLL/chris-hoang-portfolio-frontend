@@ -6,9 +6,9 @@ const heroSkills = Array.from(new Set(skillGroups.flatMap((group) => group.skill
 
 export default function Hero() {
   return (
-    <section id="top" className="relative min-h-screen flex items-center section-pad py-32">
-      <div className="max-w-content mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center w-full">
-        <div className="order-2 md:order-1 text-center md:text-left">
+    <section id="top" className="relative grid md:grid-cols-2 md:min-h-screen">
+      <div className="order-2 md:order-1 flex flex-col justify-center py-20 md:py-32 section-pad">
+        <div className="max-w-xl mx-auto md:mx-0">
           <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-5">
             {profile.location} · {profile.visaNote}
           </p>
@@ -16,7 +16,7 @@ export default function Hero() {
             {profile.name}
           </h1>
 
-          <div className="mt-6 flex flex-wrap gap-2 justify-center md:justify-start">
+          <div className="mt-6 flex flex-wrap gap-2">
             {heroSkills.map((skill) => {
               const Icon = SKILL_ICONS[skill];
               return (
@@ -34,7 +34,7 @@ export default function Hero() {
           <p className="mt-7 text-xl text-subtle font-medium">{profile.title}</p>
           <p className="mt-2 text-base text-subtle italic">&ldquo;{profile.tagline}&rdquo;</p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href="#projects"
               className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
@@ -49,25 +49,23 @@ export default function Hero() {
             </a>
           </div>
         </div>
+      </div>
 
-        <div className="order-1 md:order-2 flex justify-center md:justify-end">
-          <div className="relative w-64 sm:w-80 md:w-full md:max-w-md aspect-[1230/1536]">
-            <Image
-              src="/chris-hoang-cover.png"
-              alt={profile.name}
-              fill
-              priority
-              sizes="(min-width: 768px) 28rem, 20rem"
-              className="object-contain object-bottom drop-shadow-2xl"
-            />
-          </div>
-        </div>
+      <div className="order-1 md:order-2 relative h-[55vh] md:h-auto">
+        <Image
+          src="/chris-hoang-portrait.jpg"
+          alt={profile.name}
+          fill
+          priority
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover grayscale transition-[filter] duration-700 hover:grayscale-0"
+        />
       </div>
 
       <a
         href="#about"
         aria-label="Scroll to About section"
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-subtle"
+        className="hidden md:block absolute bottom-10 left-[25%] -translate-x-1/2 animate-bounce text-subtle"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M12 4v16m0 0-6-6m6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
