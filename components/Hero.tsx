@@ -2,7 +2,7 @@ import { profile } from "@/lib/content";
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center text-center section-pad">
+    <section id="top" className="relative flex min-h-screen flex-col items-center justify-center text-center section-pad">
       <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-6">
         {profile.location} · {profile.visaNote}
       </p>

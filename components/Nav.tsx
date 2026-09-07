@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { profile } from "@/lib/content";
 
 const links = [
-  { href: "#skills", label: "Skills" },
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
+  { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
   { href: "#contact", label: "Contact" },
 ];
@@ -28,7 +28,7 @@ export default function Nav() {
       }`}
     >
       <nav className="max-w-content mx-auto flex items-center justify-between h-14 section-pad">
-        <a href="#skills" className="text-[15px] font-semibold tracking-tight">
+        <a href="#top" className="text-[15px] font-semibold tracking-tight">
           {profile.name}
         </a>
         <ul className="hidden sm:flex items-center gap-8 text-[13px] text-subtle">

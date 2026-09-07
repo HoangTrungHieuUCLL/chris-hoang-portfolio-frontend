@@ -15,10 +15,10 @@ export default async function Home() {
     <>
       <Nav />
       <main>
-        <Skills />
         <Hero />
         <About />
         <Experience />
+        <Skills />
         <Projects projects={projects} />
         <Contact />
       </main>
