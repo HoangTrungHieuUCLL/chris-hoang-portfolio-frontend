@@ -57,18 +57,28 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            {project.link_url ? (
-              <a
-                href={project.link_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-ink text-paper px-6 py-2.5 text-sm font-medium hover:opacity-80 transition-opacity"
-              >
-                {project.link_label ?? "View Project"} ↗
-              </a>
-            ) : (
-              <span />
-            )}
+            <div className="flex flex-wrap items-center gap-4">
+              {project.link_url ? (
+                <a
+                  href={project.link_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-ink text-paper px-6 py-2.5 text-sm font-medium hover:opacity-80 transition-opacity"
+                >
+                  {project.link_label ?? "View Project"} ↗
+                </a>
+              ) : null}
+              {project.repo_url && (
+                <a
+                  href={project.repo_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-subtle hover:text-ink transition-colors underline underline-offset-4"
+                >
+                  View the code on GitHub ↗
+                </a>
+              )}
+            </div>
             {project.image_credit_name && (
               <a
                 href={project.image_credit_url ?? "#"}

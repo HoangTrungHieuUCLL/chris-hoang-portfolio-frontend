@@ -9,6 +9,7 @@ export type Project = {
   year: string;
   link_url: string | null;
   link_label: string | null;
+  repo_url: string | null;
   image_url: string | null;
   image_credit_name: string | null;
   image_credit_url: string | null;
