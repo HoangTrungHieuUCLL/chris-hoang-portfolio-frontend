@@ -7,7 +7,7 @@ const heroSkills = Array.from(new Set(skillGroups.flatMap((group) => group.skill
 export default function Hero() {
   return (
     <section id="top" className="relative grid md:grid-cols-2 md:min-h-screen">
-      <div className="order-2 md:order-1 flex flex-col justify-center py-20 md:py-32 section-pad">
+      <div className="order-2 md:order-1 flex flex-col justify-center py-20 md:py-32 px-6 sm:px-10 lg:pl-[max(2.5rem,calc((100vw-1120px)/2))] lg:pr-12">
         <div className="max-w-xl mx-auto md:mx-0">
           <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-5">
             {profile.location} · {profile.visaNote}
