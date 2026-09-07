@@ -1,34 +1,5 @@
-import {
-  SiApacheairflow,
-  SiCss3,
-  SiDocker,
-  SiGooglebigquery,
-  SiGooglecloud,
-  SiHtml5,
-  SiJavascript,
-  SiPlotly,
-  SiPostgresql,
-  SiPowerbi,
-  SiPython,
-  SiTypescript,
-} from "react-icons/si";
-import type { IconType } from "react-icons";
 import { skillGroups } from "@/lib/content";
-
-const ICONS: Record<string, IconType> = {
-  Python: SiPython,
-  PostgreSQL: SiPostgresql,
-  "Google Cloud Platform": SiGooglecloud,
-  BigQuery: SiGooglebigquery,
-  "Apache Airflow": SiApacheairflow,
-  "Power BI": SiPowerbi,
-  Plotly: SiPlotly,
-  TypeScript: SiTypescript,
-  JavaScript: SiJavascript,
-  HTML5: SiHtml5,
-  CSS3: SiCss3,
-  Docker: SiDocker,
-};
+import { SKILL_ICONS } from "@/lib/skillIcons";
 
 export default function Skills() {
   return (
@@ -40,7 +11,7 @@ export default function Skills() {
             <h3 className="text-[13px] uppercase tracking-wide text-subtle mb-4">{group.label}</h3>
             <div className="flex flex-wrap gap-2">
               {group.skills.map((skill) => {
-                const Icon = ICONS[skill];
+                const Icon = SKILL_ICONS[skill];
                 return (
                   <span
                     key={skill}
