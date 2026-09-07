@@ -53,7 +53,7 @@ export default function Hero() {
 
       <div className="order-1 md:order-2 relative h-[55vh] md:h-auto">
         <Image
-          src="/chris-hoang-portrait.jpg"
+          src="/chris-hoang-cover-2.jpeg"
           alt={profile.name}
           fill
           priority
