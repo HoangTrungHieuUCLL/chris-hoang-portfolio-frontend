@@ -5,6 +5,7 @@ import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import DataCleaningReport from "@/components/DataCleaningReport";
+import SalesDashboardTeaser from "@/components/SalesDashboardTeaser";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { getProjects } from "@/lib/api";
@@ -22,6 +23,7 @@ export default async function Home() {
         <Experience />
         <Projects projects={projects} />
         <DataCleaningReport />
+        <SalesDashboardTeaser />
         <Contact />
       </main>
       <Footer />
