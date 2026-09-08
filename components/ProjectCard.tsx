@@ -9,13 +9,24 @@ export default function ProjectCard({
   onExpand: (project: Project) => void;
 }) {
   return (
-    <div className="relative w-full h-[460px] rounded-[28px] bg-ink overflow-hidden flex flex-col">
+    <div className="relative w-full h-[500px] rounded-[28px] bg-ink overflow-hidden flex flex-col">
       <div className="p-6 pb-4">
         <p className="text-[12px] tracking-wide text-paper/60 mb-2">
           {project.category}
           {project.year ? ` · ${project.year}` : ""}
         </p>
-        <h3 className="text-[21px] font-semibold text-paper leading-snug">{project.name}</h3>
+        <h3 className="text-[21px] font-semibold text-paper leading-snug mb-2">{project.name}</h3>
+        <p className="text-[13px] text-paper/70 leading-relaxed line-clamp-2 mb-3">{project.description}</p>
+
+        {project.tech_stack.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {project.tech_stack.slice(0, 3).map((tech) => (
+              <span key={tech} className="text-[11px] rounded-full bg-paper/10 px-2.5 py-1 text-paper/70">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="relative flex-1">
