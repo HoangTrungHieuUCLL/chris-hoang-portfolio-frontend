@@ -16,9 +16,9 @@ export default async function Home() {
       <Nav />
       <main>
         <Hero />
+        <Skills projects={projects} />
         <About />
         <Experience />
-        <Skills projects={projects} />
         <Projects projects={projects} />
         <Contact />
       </main>

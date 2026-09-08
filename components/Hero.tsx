@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="order-2 md:order-1 flex flex-col justify-center py-20 md:py-32 px-6 sm:px-10 lg:pl-[max(2.5rem,calc((100vw-1120px)/2))] lg:pr-12">
         <div className="max-w-xl mx-auto md:mx-0">
           <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-5">
-            {profile.location} · {profile.visaNote}
+            {profile.location}
           </p>
           <h1 className="text-6xl sm:text-7xl font-semibold tracking-tightest leading-[0.95]">
             {profile.name}
@@ -16,13 +16,21 @@ export default function Hero() {
           <p className="mt-6 text-xl text-subtle font-medium">{profile.title}</p>
           <p className="mt-2 text-base text-subtle italic">&ldquo;{profile.tagline}&rdquo;</p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href="#projects"
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
-            >
-              View Projects
-            </a>
+          <div className="mt-8 flex flex-col gap-4 items-start">
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#skills"
+                className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
+              >
+                Skills Overview
+              </a>
+              <a
+                href="#projects"
+                className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
+              >
+                View Projects
+              </a>
+            </div>
             <a
               href="#contact"
               className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
@@ -45,8 +53,8 @@ export default function Hero() {
       </div>
 
       <a
-        href="#about"
-        aria-label="Scroll to About section"
+        href="#skills"
+        aria-label="Scroll to Skills section"
         className="hidden md:block absolute bottom-10 left-[25%] -translate-x-1/2 animate-bounce text-subtle"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
