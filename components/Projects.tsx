@@ -89,25 +89,32 @@ export default function Projects({ projects }: { projects: Project[] }) {
           .
         </p>
       ) : (
-        // The same max-w-content/section-pad box the heading above uses, so
-        // the first card's left edge lines up with it with no custom math.
-        // The scroller inside then breaks its own right edge out to the true
-        // viewport edge at lg+ (the standard `margin-right: 50% - 50vw`
-        // breakout: on this box, 50% is half of min(100vw, 1120px), which
-        // exactly cancels mx-auto's own right inset once the viewport
-        // exceeds 1120px, and is a no-op below that since the box isn't
-        // width-capped yet), which is how the cards peek past the edge.
-        <div className="max-w-content mx-auto section-pad">
-          <div
-            ref={scrollerRef}
-            onScroll={updateEdges}
-            className="overflow-x-auto no-scrollbar snap-x snap-mandatory lg:mr-[calc(50%_-_50vw)]"
-          >
-            <div className="flex gap-6 lg:pr-6">
-              {ordered.map((project) => (
-                <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
-              ))}
-            </div>
+        // A plain full-bleed scroller (no max-w-content wrapper), so it
+        // clips at the true viewport edge on BOTH sides symmetrically.
+        // Wrapping it in max-w-content (to align the left edge) made the
+        // right edge bleed to the viewport via a margin breakout while the
+        // left edge stayed inset, an asymmetric clip that cropped cards
+        // approaching the left boundary well before the true screen edge.
+        // Instead, an invisible leading spacer (same width as section-pad's
+        // own left inset) pushes the first real card into alignment with
+        // the "Projects" heading, with no padding/margin trick needed.
+        <div
+          ref={scrollerRef}
+          onScroll={updateEdges}
+          className="overflow-x-auto no-scrollbar snap-x snap-mandatory"
+        >
+          <div className="flex gap-6 pr-6">
+            {/* snap-start here too: otherwise mandatory snap has no valid
+                stopping point at scrollLeft 0 (only at the first card's own
+                edge) and would yank straight past the spacer after any
+                scroll gesture, undoing the alignment it's there to provide. */}
+            <div
+              aria-hidden
+              className="shrink-0 snap-start bg-mist w-6 sm:w-10 lg:w-[max(0px,calc((100vw_-_1120px)/2))]"
+            />
+            {ordered.map((project) => (
+              <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
+            ))}
           </div>
         </div>
       )}
