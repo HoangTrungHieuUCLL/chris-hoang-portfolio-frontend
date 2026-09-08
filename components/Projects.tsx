@@ -5,7 +5,7 @@ import type { Project } from "@/lib/api";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 
-// Curated set shown up front, in this order, regardless of category or date —
+// Curated set shown up front, in this order, regardless of category or date:
 // the strongest, most relevant work for a recruiter skimming the page.
 const HIGHLIGHTED_SLUGS = [
   "automated-sales-forecast-pipeline",
@@ -37,7 +37,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
 
         {projects.length === 0 ? (
           <p className="text-subtle">
-            Projects are loading in — check back shortly, or view the source on{" "}
+            Projects are loading in. Check back shortly, or view the source on{" "}
             <a href="https://github.com/HoangTrungHieuUCLL" className="underline" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>

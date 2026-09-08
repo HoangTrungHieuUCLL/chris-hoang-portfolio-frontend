@@ -6,7 +6,7 @@ import { dataCleaningReport as report } from "@/lib/dataCleaningReport";
 import { SKILL_ICONS } from "@/lib/skillIcons";
 
 export const metadata: Metadata = {
-  title: `${report.title} — ${profile.name}`,
+  title: `${report.title} - ${profile.name}`,
   description: report.summary,
   openGraph: {
     title: report.title,
@@ -126,22 +126,27 @@ export default function AmazonSalesDataCleaningReportPage() {
                   <p className="text-base text-subtle leading-relaxed max-w-3xl mb-8">{section.intro}</p>
                 )}
 
-                <div className={section.intro ? "space-y-8" : "space-y-8 mt-8"}>
+                <div className={section.intro ? "space-y-10" : "space-y-10 mt-8"}>
                   {section.checks.map((check) => (
-                    <div
-                      key={check.label}
-                      className="grid sm:grid-cols-[220px_1fr] gap-2 sm:gap-8 pb-8 border-b border-line last:border-0 last:pb-0"
-                    >
-                      <h4 className="text-[15px] font-medium text-ink">{check.label}</h4>
-                      <div className="space-y-2 max-w-2xl">
-                        <p className="text-[15px] text-ink leading-relaxed">
-                          <span className="text-subtle">Finding — </span>
-                          {check.finding}
-                        </p>
-                        <p className="text-[15px] text-ink leading-relaxed">
-                          <span className="text-subtle">Action — </span>
-                          {check.action}
-                        </p>
+                    <div key={check.label} className="pb-10 border-b border-line last:border-0 last:pb-0">
+                      <h4 className="text-[16px] font-semibold text-ink mb-4">{check.label}</h4>
+                      <div className="space-y-3 max-w-2xl">
+                        <div className="grid sm:grid-cols-[84px_1fr] gap-x-6 gap-y-1">
+                          <span className="text-[12px] uppercase tracking-wide text-subtle">Finding</span>
+                          <p className="text-[15px] text-ink leading-relaxed">{check.finding}</p>
+                        </div>
+                        <div className="grid sm:grid-cols-[84px_1fr] gap-x-6 gap-y-1">
+                          <span className="text-[12px] uppercase tracking-wide text-subtle">Action</span>
+                          <p className="text-[15px] text-ink leading-relaxed">{check.action}</p>
+                        </div>
+                        {check.code && (
+                          <div className="grid sm:grid-cols-[84px_1fr] gap-x-6 gap-y-1">
+                            <span className="text-[12px] uppercase tracking-wide text-subtle sm:pt-3">Code</span>
+                            <pre className="rounded-xl bg-ink text-paper text-[12.5px] leading-relaxed p-4 overflow-x-auto">
+                              <code>{check.code}</code>
+                            </pre>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -181,7 +186,7 @@ export default function AmazonSalesDataCleaningReportPage() {
         {/* Closing CTA */}
         <section className="max-w-content mx-auto section-pad py-24 text-center">
           <p className="text-lg text-subtle mb-8 max-w-xl mx-auto">
-            Every check above — including the ones that found nothing — runs in the notebook, against the raw
+            Every check above, including the ones that found nothing, runs in the notebook against the raw
             file, end to end.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">

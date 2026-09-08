@@ -13,9 +13,9 @@ export const profile = {
   lookingFor: "Junior positions in Data Analyst, Data Engineer, and AI Engineer roles.",
   languages: [
     { name: "Vietnamese", level: "Native" },
-    { name: "English", level: "Fluent — C1" },
-    { name: "Japanese", level: "Fluent — C1" },
-    { name: "German", level: "Intermediate — B1" },
+    { name: "English", level: "Fluent - C1" },
+    { name: "Japanese", level: "Fluent - C1" },
+    { name: "German", level: "Intermediate - B1" },
   ],
   social: {
     linkedin: "https://www.linkedin.com/in/chris-hoang-ucll/",
@@ -36,7 +36,7 @@ export const experience: Experience[] = [
   {
     role: "Data Analyst",
     org: "IKEA Belgium (Internship)",
-    period: "Feb 2026 — May 2026",
+    period: "Feb 2026 - May 2026",
     bullets: [
       "Built data pipelines and scheduled reporting, transforming complex data into actionable insights that drive improvements in digital experience and conversion.",
       "Designed and enhanced Power BI dashboards, and engineered BigQuery SQL workflows so analysts can reliably self-serve insights.",
@@ -46,7 +46,7 @@ export const experience: Experience[] = [
   {
     role: "Server Administrator",
     org: "Rakuten Bank, Ltd. (Japan)",
-    period: "Apr 2021 — Jul 2023",
+    period: "Apr 2021 - Jul 2023",
     bullets: [
       "Monitored and maintained servers and network devices (Zabbix) across Windows Server, RedHat, Linux, Oracle Solaris, and VMware.",
       "Ran daily, monthly, and yearly backup and disaster-recovery procedures, and composed standard operating procedures.",
@@ -55,7 +55,7 @@ export const experience: Experience[] = [
   {
     role: "IT Support",
     org: "Kyushu Institute of Information Sciences (Japan)",
-    period: "Jan 2020 — Mar 2021",
+    period: "Jan 2020 - Mar 2021",
     bullets: [
       "Provided hardware and software support and organised classes to raise cybersecurity awareness among teachers and students.",
     ],
@@ -66,13 +66,13 @@ export const education = [
   {
     degree: "Bachelor of Applied Computer Science",
     school: "UC Leuven-Limburg, Belgium",
-    period: "Sep 2023 — Jun 2026",
+    period: "Sep 2023 - Jun 2026",
     note: "Magna cum laude",
   },
   {
     degree: "Bachelor of Informatics & Management",
     school: "Kyushu Institute of Information Sciences, Japan",
-    period: "Apr 2017 — Mar 2021",
+    period: "Apr 2017 - Mar 2021",
   },
 ];
 

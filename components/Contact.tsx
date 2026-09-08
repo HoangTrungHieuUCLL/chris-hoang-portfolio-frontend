@@ -52,7 +52,7 @@ export default function Contact() {
 
         {status === "sent" ? (
           <div className="flex items-center rounded-2xl border border-line p-8 text-lg">
-            Thanks for reaching out — I&apos;ll get back to you soon.
+            Thanks for reaching out. I&apos;ll get back to you soon.
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">

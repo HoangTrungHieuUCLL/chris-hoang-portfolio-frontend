@@ -3,12 +3,12 @@ import "./globals.css";
 import { profile } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.title}`,
+  title: `${profile.name} - ${profile.title}`,
   description: profile.tagline,
   metadataBase: new URL("https://chrishoang.dev"),
   icons: { icon: "/favicon.svg" },
   openGraph: {
-    title: `${profile.name} — ${profile.title}`,
+    title: `${profile.name} - ${profile.title}`,
     description: profile.tagline,
     type: "website",
   },
