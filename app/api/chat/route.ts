@@ -169,12 +169,14 @@ function withCookie(response: Response, setCookie: string | undefined) {
 }
 
 /**
- * Deletes the visitor's one conversation, both on Letta Cloud and from their
- * cookie, so the widget returns to its empty first-visit state. Idempotent:
- * a visitor with no conversation yet gets a clean success response rather
- * than an error, and a conversation that's already gone (e.g. deleted
- * twice in quick succession) is treated the same way - either way the
- * visitor ends up with no conversation, which is the outcome they asked for.
+ * Removes the visitor's one conversation: archives it on Letta Cloud (the
+ * SDK has no hard delete - see the comment below) and clears it from their
+ * cookie, so the widget returns to its empty first-visit state. From the
+ * visitor's side this is indistinguishable from a real delete: the cookie
+ * was their only reference to that conversation ID, so once it's cleared
+ * they have no way back to it either way. Idempotent: a visitor with no
+ * conversation yet, or one already archived, gets a clean success response
+ * rather than an error.
  */
 export async function DELETE(request: Request) {
   let setCookie: string | undefined = undefined;
@@ -197,10 +199,17 @@ export async function DELETE(request: Request) {
 
     if (existingVisitor?.conversationId) {
       try {
-        await getClient().conversations.delete(existingVisitor.conversationId);
+        // ConversationsClient in this SDK version has no delete() at all
+        // (verified against its actual .d.ts: list/retrieve/create/update/
+        // listMessages, nothing else) - archived is the closest real
+        // capability it exposes. From the visitor's side this has the same
+        // effect as a delete: their cookie is cleared right after, which
+        // was their only reference to this conversation ID, so there is no
+        // way for them to get back to it either way.
+        await getClient().conversations.update(existingVisitor.conversationId, { archived: true });
       } catch {
-        // Already gone, or the delete call itself failed - proceed to clear
-        // the cookie regardless; see the doc comment above.
+        // Already archived/gone, or the call itself failed - proceed to
+        // clear the cookie regardless; see the doc comment above.
       }
       setCookie = visitorCookieHeader(withoutConversation(existingVisitor));
     }
