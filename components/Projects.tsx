@@ -89,19 +89,25 @@ export default function Projects({ projects }: { projects: Project[] }) {
           .
         </p>
       ) : (
-        <div
-          ref={scrollerRef}
-          onScroll={updateEdges}
-          className="overflow-x-auto no-scrollbar snap-x snap-mandatory"
-        >
-          {/* Mirrors section-pad's own breakpoints (px-6 sm:px-10 lg:px-0) so
-              the first card's left edge lines up with the "Projects" heading
-              above: lg:px-0 there relies on max-w-content's mx-auto margin,
-              which is 0 below 1120px and (100vw-1120px)/2 above it. */}
-          <div className="flex gap-6 pl-6 sm:pl-10 lg:pl-[max(0px,calc((100vw-1120px)/2))] pr-6">
-            {ordered.map((project) => (
-              <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
-            ))}
+        // The same max-w-content/section-pad box the heading above uses, so
+        // the first card's left edge lines up with it with no custom math.
+        // The scroller inside then breaks its own right edge out to the true
+        // viewport edge at lg+ (the standard `margin-right: 50% - 50vw`
+        // breakout: on this box, 50% is half of min(100vw, 1120px), which
+        // exactly cancels mx-auto's own right inset once the viewport
+        // exceeds 1120px, and is a no-op below that since the box isn't
+        // width-capped yet), which is how the cards peek past the edge.
+        <div className="max-w-content mx-auto section-pad">
+          <div
+            ref={scrollerRef}
+            onScroll={updateEdges}
+            className="overflow-x-auto no-scrollbar snap-x snap-mandatory lg:mr-[calc(50%_-_50vw)]"
+          >
+            <div className="flex gap-6 lg:pr-6">
+              {ordered.map((project) => (
+                <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
+              ))}
+            </div>
           </div>
         </div>
       )}
