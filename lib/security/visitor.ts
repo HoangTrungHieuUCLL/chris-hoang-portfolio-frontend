@@ -130,6 +130,13 @@ export function withConversation(visitor: Visitor, conversationId: string): Visi
   return { id: visitor.id, conversationId };
 }
 
+/** Returns a visitor with its conversation cleared (same identity, so rate
+ * limits and any future re-visit still recognize them) - used after
+ * deleting the conversation, so the next message starts a fresh one. */
+export function withoutConversation(visitor: Visitor): Visitor {
+  return { id: visitor.id };
+}
+
 /** The `Set-Cookie` header value for `visitor`. Attach it to any response
  * that establishes or updates an identity (a fresh visitor, or one who just
  * got a conversation for the first time). */

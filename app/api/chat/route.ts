@@ -6,7 +6,15 @@ import {
 import type { BrowserEvent } from "@/lib/letta/browser-events";
 import { createStreamProjection, projectHistoryRows } from "@/lib/letta/sdk-rows";
 import { checkRateLimit } from "@/lib/security/rate-limit";
-import { clientIp, createVisitor, readVisitor, visitorCookieHeader, withConversation, type Visitor } from "@/lib/security/visitor";
+import {
+  clientIp,
+  createVisitor,
+  readVisitor,
+  visitorCookieHeader,
+  withConversation,
+  withoutConversation,
+  type Visitor,
+} from "@/lib/security/visitor";
 
 export const runtime = "nodejs";
 
@@ -158,6 +166,49 @@ function withCookie(response: Response, setCookie: string | undefined) {
   if (!setCookie) return response;
   response.headers.append("Set-Cookie", setCookie);
   return response;
+}
+
+/**
+ * Deletes the visitor's one conversation, both on Letta Cloud and from their
+ * cookie, so the widget returns to its empty first-visit state. Idempotent:
+ * a visitor with no conversation yet gets a clean success response rather
+ * than an error, and a conversation that's already gone (e.g. deleted
+ * twice in quick succession) is treated the same way - either way the
+ * visitor ends up with no conversation, which is the outcome they asked for.
+ */
+export async function DELETE(request: Request) {
+  let setCookie: string | undefined = undefined;
+
+  try {
+    const existingVisitor = readVisitor(request);
+    setCookie = existingVisitor ? undefined : visitorCookieHeader(createVisitor());
+
+    const visitorKey = existingVisitor?.id ?? `ip:${clientIp(request)}`;
+    const rateLimited = checkRateLimit(`delete:${visitorKey}`, BOOTSTRAP_RATE_LIMIT, BOOTSTRAP_RATE_WINDOW_MS);
+    if (!rateLimited.allowed) {
+      return withCookie(
+        Response.json(
+          { error: "Too many requests. Try again shortly." },
+          { status: 429, headers: { "Retry-After": String(Math.ceil((rateLimited.retryAfterMs ?? 0) / 1000)) } },
+        ),
+        setCookie,
+      );
+    }
+
+    if (existingVisitor?.conversationId) {
+      try {
+        await getClient().conversations.delete(existingVisitor.conversationId);
+      } catch {
+        // Already gone, or the delete call itself failed - proceed to clear
+        // the cookie regardless; see the doc comment above.
+      }
+      setCookie = visitorCookieHeader(withoutConversation(existingVisitor));
+    }
+
+    return withCookie(Response.json({ success: true }), setCookie);
+  } catch (error) {
+    return withCookie(Response.json({ error: errorMessage(error) }, { status: 500 }), setCookie);
+  }
 }
 
 export async function POST(request: Request) {

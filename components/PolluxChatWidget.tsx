@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import styles from "@/styles/pollux-chat.module.css";
+
+/** Remembers, per browser (not per visit), that the greeting bubble has
+ * already done its job - shown once, or dismissed - so it doesn't nag a
+ * returning visitor on every page load. Purely a local UI nicety: no
+ * server round-trip, unrelated to the visitor identity cookie that
+ * actually secures the chat. */
+const GREETING_SEEN_KEY = "pollux_greeting_seen";
+const GREETING_DELAY_MS = 1200;
 
 /**
  * Floating chat bubble present on every page (mounted once, in app/layout.tsx).
@@ -13,8 +21,32 @@ import styles from "@/styles/pollux-chat.module.css";
 export default function PolluxChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasOpenedOnce, setHasOpenedOnce] = useState(false);
+  const [showGreeting, setShowGreeting] = useState(false);
+
+  useEffect(() => {
+    let seen = false;
+    try {
+      seen = localStorage.getItem(GREETING_SEEN_KEY) === "1";
+    } catch {
+      // Storage unavailable (private mode, disabled entirely) - treat as
+      // unseen; the greeting just won't remember it was dismissed either.
+    }
+    if (seen) return;
+    const timer = setTimeout(() => setShowGreeting(true), GREETING_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  function dismissGreeting() {
+    setShowGreeting(false);
+    try {
+      localStorage.setItem(GREETING_SEEN_KEY, "1");
+    } catch {
+      // Nothing to do if storage isn't available - see the effect above.
+    }
+  }
 
   function toggle() {
+    dismissGreeting();
     setIsOpen((wasOpen) => {
       const nextOpen = !wasOpen;
       if (nextOpen) setHasOpenedOnce(true);
@@ -32,6 +64,24 @@ export default function PolluxChatWidget() {
           role="dialog"
         >
           <ChatPanel isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </div>
+      )}
+
+      {showGreeting && !isOpen && (
+        <div className={styles.greeting} role="status">
+          <button className={styles.greetingText} onClick={toggle} type="button">
+            Hi, I&rsquo;m Pollux and I&rsquo;m Chris&rsquo; personal assistant!
+          </button>
+          <button
+            aria-label="Dismiss"
+            className={styles.greetingClose}
+            onClick={dismissGreeting}
+            type="button"
+          >
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
       )}
 

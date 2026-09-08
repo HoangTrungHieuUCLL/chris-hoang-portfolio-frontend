@@ -23,16 +23,40 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     <div className={styles.panelInner}>
       <header className={styles.panelHeader}>
         <span className={styles.panelTitle}>Chat with Pollux</span>
-        <button
-          aria-label="Close chat"
-          className={styles.panelClose}
-          onClick={onClose}
-          type="button"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
-          </svg>
-        </button>
+        <div className={styles.panelHeaderActions}>
+          {chat.messages.length > 0 && (
+            <button
+              aria-label="Delete this conversation"
+              className={styles.panelClose}
+              disabled={chat.isDeleting}
+              onClick={() => {
+                if (window.confirm("Delete this conversation? This can't be undone.")) {
+                  void chat.deleteChat();
+                }
+              }}
+              title="Delete this conversation"
+              type="button"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path
+                  d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          )}
+          <button
+            aria-label="Close chat"
+            className={styles.panelClose}
+            onClick={onClose}
+            type="button"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </header>
 
       <MessageList

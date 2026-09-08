@@ -51,6 +51,7 @@ export function useChatSession() {
   const [historyLimit, setHistoryLimit] = useState(HISTORY_PAGE);
   const [hasOlderMessages, setHasOlderMessages] = useState(false);
   const [hasPendingApproval, setHasPendingApproval] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // `retry`, `error`, and the terminal result are turn-level signals rather than
   // rows, so they are applied to the trailing message here.
@@ -163,6 +164,36 @@ export function useChatSession() {
     }
   }
 
+  /**
+   * Deletes the conversation, both on Letta Cloud and from the visitor's
+   * cookie (app/api/chat/route.ts's DELETE handler), and resets the widget
+   * to its empty first-visit state. The next message starts a new
+   * conversation from scratch.
+   */
+  async function deleteChat() {
+    if (isSending || isNavigating || isDeleting) return;
+
+    setIsDeleting(true);
+    setNavigationError(undefined);
+    try {
+      const response = await fetch("/api/chat", { method: "DELETE" });
+      if (!response.ok) {
+        const body = (await response.json()) as { error?: string };
+        throw new Error(body.error ?? `Request failed: ${response.status}`);
+      }
+      setLive({ rows: [], applied: [] });
+      setHistoryLimit(HISTORY_PAGE);
+      setHasOlderMessages(false);
+      setHasPendingApproval(false);
+    } catch (error) {
+      setNavigationError(
+        error instanceof Error ? error.message : "Could not delete the conversation.",
+      );
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   return {
     messages,
     input,
@@ -170,10 +201,12 @@ export function useChatSession() {
     isSending,
     isNavigating,
     isLoadingHistory,
+    isDeleting,
     navigationError,
     hasOlderMessages,
     hasPendingApproval,
     loadOlderMessages,
     sendMessage,
+    deleteChat,
   };
 }
