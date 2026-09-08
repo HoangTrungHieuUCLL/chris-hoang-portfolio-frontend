@@ -94,7 +94,11 @@ export default function Projects({ projects }: { projects: Project[] }) {
           onScroll={updateEdges}
           className="overflow-x-auto no-scrollbar snap-x snap-mandatory"
         >
-          <div className="flex gap-6 pl-6 sm:pl-10 lg:pl-[max(1.5rem,calc((100vw-1120px)/2))] pr-6">
+          {/* Mirrors section-pad's own breakpoints (px-6 sm:px-10 lg:px-0) so
+              the first card's left edge lines up with the "Projects" heading
+              above: lg:px-0 there relies on max-w-content's mx-auto margin,
+              which is 0 below 1120px and (100vw-1120px)/2 above it. */}
+          <div className="flex gap-6 pl-6 sm:pl-10 lg:pl-[max(0px,calc((100vw-1120px)/2))] pr-6">
             {ordered.map((project) => (
               <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
             ))}
