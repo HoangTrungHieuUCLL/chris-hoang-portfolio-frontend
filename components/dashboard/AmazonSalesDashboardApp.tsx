@@ -71,9 +71,10 @@ export default function AmazonSalesDashboardApp() {
         <div className="mt-8">
           {tab === "mix" && (
             <div className="rounded-[20px] border border-line bg-paper p-6">
-              <h3 className="text-[14px] font-semibold text-ink mb-1">Subcategory mix</h3>
+              <h3 className="text-[15px] font-semibold text-ink mb-1">Where does the catalog concentrate?</h3>
               <p className="text-[13px] text-subtle mb-4">
-                Where {filter === "All" ? "the full catalog" : filter} concentrates, ranked by product count.
+                Subcategories within {filter === "All" ? "the full catalog" : filter}, ranked by product count.
+                Longer bars mean more listings competing in that niche.
               </p>
               <PortfolioMixChart data={subcategoryMix} />
             </div>
@@ -82,13 +83,20 @@ export default function AmazonSalesDashboardApp() {
           {tab === "pricing" && (
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="rounded-[20px] border border-line bg-paper p-6">
-                <h3 className="text-[14px] font-semibold text-ink mb-1">Avg. discount by category</h3>
-                <p className="text-[13px] text-subtle mb-4">Full catalog, selected category highlighted.</p>
+                <h3 className="text-[15px] font-semibold text-ink mb-1">Who discounts the hardest?</h3>
+                <p className="text-[13px] text-subtle mb-4">
+                  Average discount % across the same 5 groups as the filter above (so one-off categories like
+                  Car&amp;Motorbike don&apos;t get equal billing with Electronics). Your current filter is
+                  highlighted.
+                </p>
                 <DiscountByCategoryChart data={discountByCategory} />
               </div>
               <div className="rounded-[20px] border border-line bg-paper p-6">
-                <h3 className="text-[14px] font-semibold text-ink mb-1">Discount vs. rating</h3>
-                <p className="text-[13px] text-subtle mb-4">Every product in this selection.</p>
+                <h3 className="text-[15px] font-semibold text-ink mb-1">Does discounting buy better ratings?</h3>
+                <p className="text-[13px] text-subtle mb-4">
+                  Each dot is one product in this selection: discount % plotted against its rating. A flat spread
+                  means no, read the correlation line below the chart for the exact answer.
+                </p>
                 <DiscountVsRatingScatter products={filtered} />
               </div>
             </div>
@@ -98,21 +106,29 @@ export default function AmazonSalesDashboardApp() {
             <div className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
                 <div className="rounded-[20px] border border-line bg-paper p-6">
-                  <h3 className="text-[14px] font-semibold text-ink mb-1">Rating distribution</h3>
-                  <p className="text-[13px] text-subtle mb-4">How ratings spread in this selection.</p>
+                  <h3 className="text-[15px] font-semibold text-ink mb-1">How are ratings distributed?</h3>
+                  <p className="text-[13px] text-subtle mb-4">
+                    Where products in this selection land on the 0-5 scale.
+                  </p>
                   <BucketBarChart data={ratingDistribution} height={220} />
                 </div>
                 <div className="rounded-[20px] border border-line bg-paper p-6">
-                  <h3 className="text-[14px] font-semibold text-ink mb-1">At-risk products</h3>
-                  <p className="text-[13px] text-subtle mb-4">High popularity, below-median rating.</p>
+                  <h3 className="text-[15px] font-semibold text-ink mb-1">
+                    Which bestsellers are at satisfaction risk?
+                  </h3>
+                  <p className="text-[13px] text-subtle mb-4">
+                    High rating volume paired with a below-median rating: popular, but worth a closer look.
+                  </p>
                   <AtRiskList products={atRisk} />
                 </div>
               </div>
 
               <div>
-                <h3 className="text-[14px] font-semibold text-ink mb-1">Product leaderboard</h3>
+                <h3 className="text-[15px] font-semibold text-ink mb-1">
+                  Who are the top products by demand and revenue?
+                </h3>
                 <p className="text-[13px] text-subtle mb-4">
-                  Top 15, re-sortable by demand proxy, revenue exposure, rating, or discount depth.
+                  Top 15 in this selection, re-sortable by demand proxy, revenue exposure, rating, or discount depth.
                 </p>
                 <ProductLeaderboard products={filtered} />
               </div>

@@ -12,8 +12,11 @@ type Props = {
 
 // Always the full catalog (never filtered) so the selected category's discount
 // depth can be benchmarked against the rest - see amazonSalesDashboardStats.ts.
+// `data` already arrives sorted largest-first; Recharts renders a vertical
+// category axis in that same top-to-bottom array order, so it's used as-is
+// (no reverse) to keep the biggest category at the top.
 export default function DiscountByCategoryChart({ data, height = 240 }: Props) {
-  const chartData = [...data].reverse();
+  const chartData = data;
 
   return (
     <div style={{ height }}>

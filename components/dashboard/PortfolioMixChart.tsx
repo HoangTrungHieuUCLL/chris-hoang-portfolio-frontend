@@ -10,8 +10,10 @@ type Props = {
   height?: number;
 };
 
+// `data` already arrives sorted largest-first; Recharts renders a vertical
+// category axis in that same top-to-bottom array order, so it's used as-is.
 export default function PortfolioMixChart({ data, height = 320 }: Props) {
-  const chartData = [...data].reverse(); // Recharts vertical bars render bottom-up
+  const chartData = data;
 
   return (
     <div style={{ height }}>

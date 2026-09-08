@@ -83,19 +83,24 @@ export type CategoryDiscountRow = {
 
 // Deliberately computed over the FULL catalog (not the filtered set), so the
 // selected group's discount depth can be benchmarked against everyone else.
+// Grouped into the same 5 buckets as the category filter (rather than the 9
+// raw categories) so a single-product category like Car&Motorbike doesn't
+// get the same visual weight as Electronics (490 products) - see
+// getCategoryGroup in amazonSalesDashboardData.ts.
 export function computeDiscountByCategory(allProducts: Product[], selectedFilter: CategoryFilter): CategoryDiscountRow[] {
   const groups = new Map<string, Product[]>();
   for (const p of allProducts) {
-    const list = groups.get(p.category) ?? [];
+    const group = getCategoryGroup(p.category);
+    const list = groups.get(group) ?? [];
     list.push(p);
-    groups.set(p.category, list);
+    groups.set(group, list);
   }
   return [...groups.entries()]
     .map(([category, items]) => ({
       category,
       avgDiscountPct: mean(items.map((p) => p.discountPct)),
       productCount: items.length,
-      isSelected: selectedFilter === "All" ? false : getCategoryGroup(category) === selectedFilter,
+      isSelected: selectedFilter !== "All" && category === selectedFilter,
     }))
     .sort((a, b) => b.productCount - a.productCount);
 }
