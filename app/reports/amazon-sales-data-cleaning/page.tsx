@@ -1,8 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import CodeBlock from "@/components/CodeBlock";
 import { profile } from "@/lib/content";
 import { dataCleaningReport as report } from "@/lib/dataCleaningReport";
+import { highlightPython } from "@/lib/highlightCode";
 import { SKILL_ICONS } from "@/lib/skillIcons";
 
 export const metadata: Metadata = {
@@ -46,7 +48,7 @@ export default function AmazonSalesDataCleaningReportPage() {
         {/* Hero */}
         <section className="max-w-content mx-auto section-pad pt-20 pb-16">
           <p className="text-sm tracking-[0.2em] uppercase text-subtle mb-5">Data Cleaning Report</p>
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tightest leading-[1.05] max-w-3xl mb-6">
+          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tightest leading-[1.05] max-w-3xl mb-6 text-balance">
             {report.title}
           </h1>
           <p className="text-base text-subtle mb-8">
@@ -130,7 +132,7 @@ export default function AmazonSalesDataCleaningReportPage() {
                   {section.checks.map((check) => (
                     <div key={check.label} className="pb-10 border-b border-line last:border-0 last:pb-0">
                       <h4 className="text-[16px] font-semibold text-ink mb-4">{check.label}</h4>
-                      <div className="space-y-3 max-w-2xl">
+                      <div className="space-y-3 max-w-2xl mb-5">
                         <div className="grid sm:grid-cols-[84px_1fr] gap-x-6 gap-y-1">
                           <span className="text-[12px] uppercase tracking-wide text-subtle">Finding</span>
                           <p className="text-[15px] text-ink leading-relaxed">{check.finding}</p>
@@ -139,15 +141,8 @@ export default function AmazonSalesDataCleaningReportPage() {
                           <span className="text-[12px] uppercase tracking-wide text-subtle">Action</span>
                           <p className="text-[15px] text-ink leading-relaxed">{check.action}</p>
                         </div>
-                        {check.code && (
-                          <div className="grid sm:grid-cols-[84px_1fr] gap-x-6 gap-y-1">
-                            <span className="text-[12px] uppercase tracking-wide text-subtle sm:pt-3">Code</span>
-                            <pre className="rounded-xl bg-ink text-paper text-[12.5px] leading-relaxed p-4 overflow-x-auto">
-                              <code>{check.code}</code>
-                            </pre>
-                          </div>
-                        )}
                       </div>
+                      {check.code && <CodeBlock code={check.code} html={highlightPython(check.code)} />}
                     </div>
                   ))}
                 </div>

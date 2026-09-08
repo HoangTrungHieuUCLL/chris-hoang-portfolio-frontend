@@ -38,3 +38,33 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Syntax highlighting for code blocks (components/CodeBlock.tsx). Prism.highlight()
+   runs server-side and produces these token classes; only the colors live here. */
+code .token.comment {
+  color: #6e6e73;
+  font-style: italic;
+}
+code .token.keyword,
+code .token.boolean,
+code .token.decorator {
+  color: #1d4ed8;
+}
+code .token.string,
+code .token.triple-quoted-string {
+  color: #047857;
+}
+code .token.number {
+  color: #9a3412;
+}
+code .token.function,
+code .token.builtin {
+  color: #0f766e;
+}
+code .token.class-name {
+  color: #6d28d9;
+}
+code .token.operator,
+code .token.punctuation {
+  color: #1d1d1f;
+}

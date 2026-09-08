@@ -11,7 +11,7 @@ export default function DataCleaningReport() {
 
       <div className="grid lg:grid-cols-5 gap-12 items-start">
         <div className="lg:col-span-3">
-          <h3 className="text-3xl sm:text-4xl font-semibold tracking-tightest leading-tight mb-5">
+          <h3 className="text-3xl sm:text-4xl font-semibold tracking-tightest leading-tight mb-5 text-balance">
             {report.title}
           </h3>
           <p className="text-lg text-ink leading-relaxed mb-4">{report.summary}</p>
