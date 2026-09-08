@@ -16,26 +16,18 @@ export default function Hero() {
           <p className="mt-6 text-xl text-subtle font-medium">{profile.title}</p>
           <p className="mt-2 text-base text-subtle italic">&ldquo;{profile.tagline}&rdquo;</p>
 
-          <div className="mt-8 flex flex-col gap-4 items-start">
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="#skills"
-                className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
-              >
-                Skills Overview
-              </a>
-              <a
-                href="#projects"
-                className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
-              >
-                View Projects
-              </a>
-            </div>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
-              href="#contact"
-              className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
+              href="#skills"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
             >
-              Get in Touch
+              Skills Overview
+            </a>
+            <a
+              href="#projects"
+              className="rounded-full bg-paper border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
+            >
+              View Projects
             </a>
           </div>
         </div>
