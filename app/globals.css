@@ -28,17 +28,6 @@ body {
   display: none;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Syntax highlighting for code blocks (components/CodeBlock.tsx). Prism.highlight()
    runs server-side and produces these token classes; only the colors live here. */
 code .token.comment {

@@ -9,47 +9,39 @@ export default function ProjectCard({
   onExpand: (project: Project) => void;
 }) {
   return (
-    <div className="relative w-full h-[500px] rounded-[28px] bg-ink overflow-hidden flex flex-col">
-      <div className="p-6 pb-4">
-        <p className="text-[12px] tracking-wide text-paper/60 mb-2">
+    <button
+      type="button"
+      onClick={() => onExpand(project)}
+      aria-label={`More about ${project.name}`}
+      className="group relative shrink-0 snap-start w-[82vw] sm:w-[440px] lg:w-[520px] h-[360px] rounded-[28px] overflow-hidden bg-ink text-left"
+    >
+      {project.image_url ? (
+        <Image
+          src={project.image_url}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 520px, (min-width: 640px) 440px, 82vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      ) : null}
+
+      {/* Scrim so the overlaid text stays legible over any photo. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/10 to-transparent" />
+
+      <div className="absolute inset-0 p-6 flex flex-col justify-between">
+        <p className="text-[12px] tracking-wide text-paper/80">
           {project.category}
           {project.year ? ` · ${project.year}` : ""}
         </p>
-        <h3 className="text-[21px] font-semibold text-paper leading-snug mb-2">{project.name}</h3>
-        <p className="text-[13px] text-paper/70 leading-relaxed line-clamp-2 mb-3">{project.description}</p>
 
-        {project.tech_stack.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {project.tech_stack.slice(0, 3).map((tech) => (
-              <span key={tech} className="text-[11px] rounded-full bg-paper/10 px-2.5 py-1 text-paper/70">
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
+        <div>
+          <h3 className="text-2xl font-semibold text-paper leading-snug mb-2 text-balance">{project.name}</h3>
+          <p className="text-[13px] text-paper/80 leading-relaxed line-clamp-1 mb-4">{project.description}</p>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-paper text-ink px-5 py-2.5 text-[13px] font-medium group-hover:opacity-80 transition-opacity">
+            View Project
+          </span>
+        </div>
       </div>
-
-      <div className="relative flex-1">
-        {project.image_url ? (
-          <Image
-            src={project.image_url}
-            alt={project.name}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover grayscale transition-[filter] duration-700 hover:grayscale-0"
-          />
-        ) : null}
-
-        <button
-          onClick={() => onExpand(project)}
-          aria-label={`More about ${project.name}`}
-          className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-paper text-ink flex items-center justify-center hover:opacity-80 transition-opacity"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-          </svg>
-        </button>
-      </div>
-    </div>
+    </button>
   );
 }

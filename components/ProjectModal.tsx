@@ -26,7 +26,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
       >
         {project.image_url && (
           <div className="relative h-64 sm:h-80">
-            <Image src={project.image_url} alt={project.name} fill className="object-cover grayscale" />
+            <Image src={project.image_url} alt={project.name} fill className="object-cover" />
           </div>
         )}
 
