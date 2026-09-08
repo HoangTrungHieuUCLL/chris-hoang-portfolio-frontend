@@ -9,7 +9,7 @@ export default function ProjectCard({
   onExpand: (project: Project) => void;
 }) {
   return (
-    <div className="relative flex-shrink-0 w-[78vw] sm:w-[320px] h-[520px] rounded-[28px] bg-ink overflow-hidden flex flex-col snap-start">
+    <div className="relative w-full h-[460px] rounded-[28px] bg-ink overflow-hidden flex flex-col">
       <div className="p-6 pb-4">
         <p className="text-[12px] tracking-wide text-paper/60 mb-2">
           {project.category}
@@ -24,7 +24,7 @@ export default function ProjectCard({
             src={project.image_url}
             alt={project.name}
             fill
-            sizes="(min-width: 640px) 320px, 78vw"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover grayscale transition-[filter] duration-700 hover:grayscale-0"
           />
         ) : null}
