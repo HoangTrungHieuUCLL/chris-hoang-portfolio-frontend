@@ -1,4 +1,4 @@
-# Chris Hoang — Portfolio
+# Chris Hoang: Portfolio
 
 Next.js (App Router, TypeScript, Tailwind) frontend for [chrishoang.dev](https://chrishoang.dev), an Apple-design-inspired personal portfolio. Talks to the FastAPI backend in `chris-hoang-portfolio-backend` for project data and the contact form.
 
@@ -10,7 +10,7 @@ cp .env.example .env.local   # point NEXT_PUBLIC_API_URL at the backend
 npm run dev
 ```
 
-Runs at `http://localhost:3000`. Requires the backend (see the backend repo's `docker compose up`) for live project data — otherwise the Projects section falls back to an empty state.
+Runs at `http://localhost:3000`. Requires the backend (see the backend repo's `docker compose up`) for live project data; otherwise the Projects section falls back to an empty state.
 
 ## Environment variables
 

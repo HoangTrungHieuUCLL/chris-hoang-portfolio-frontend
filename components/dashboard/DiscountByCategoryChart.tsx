@@ -7,15 +7,16 @@ import { VIZ_ACCENT, VIZ_AXIS_TEXT, VIZ_GRID, VIZ_MUTED } from "@/lib/vizColors"
 
 type Props = {
   data: CategoryDiscountRow[];
+  height?: number;
 };
 
 // Always the full catalog (never filtered) so the selected category's discount
 // depth can be benchmarked against the rest - see amazonSalesDashboardStats.ts.
-export default function DiscountByCategoryChart({ data }: Props) {
+export default function DiscountByCategoryChart({ data, height = 240 }: Props) {
   const chartData = [...data].reverse();
 
   return (
-    <div className="h-[280px]">
+    <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} layout="vertical" margin={{ top: 4, right: 32, bottom: 4, left: 4 }} barSize={16}>
           <CartesianGrid horizontal={false} stroke={VIZ_GRID} />

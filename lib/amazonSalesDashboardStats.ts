@@ -113,22 +113,6 @@ export function computeSubcategoryMix(filtered: Product[], limit = 10): Subcateg
     .slice(0, limit);
 }
 
-const PRICE_TIERS: { label: string; min: number; max: number }[] = [
-  { label: "< ₹500", min: 0, max: 500 },
-  { label: "₹500-1,000", min: 500, max: 1000 },
-  { label: "₹1,000-2,500", min: 1000, max: 2500 },
-  { label: "₹2,500-5,000", min: 2500, max: 5000 },
-  { label: "₹5,000-10,000", min: 5000, max: 10000 },
-  { label: "₹10,000+", min: 10000, max: Infinity },
-];
-
-export function computePriceTiers(filtered: Product[]): { label: string; count: number }[] {
-  return PRICE_TIERS.map(({ label, min, max }) => ({
-    label,
-    count: filtered.filter((p) => p.actualPrice >= min && p.actualPrice < max).length,
-  }));
-}
-
 const RATING_BUCKETS: { label: string; min: number; max: number }[] = [
   { label: "< 3.5", min: 0, max: 3.5 },
   { label: "3.5-4.0", min: 3.5, max: 4.0 },

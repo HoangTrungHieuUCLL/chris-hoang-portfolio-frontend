@@ -7,13 +7,14 @@ import { VIZ_ACCENT, VIZ_AXIS_TEXT, VIZ_GRID } from "@/lib/vizColors";
 
 type Props = {
   data: SubcategoryRow[];
+  height?: number;
 };
 
-export default function PortfolioMixChart({ data }: Props) {
+export default function PortfolioMixChart({ data, height = 320 }: Props) {
   const chartData = [...data].reverse(); // Recharts vertical bars render bottom-up
 
   return (
-    <div className="h-[360px]">
+    <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} layout="vertical" margin={{ top: 4, right: 24, bottom: 4, left: 4 }} barSize={18}>
           <CartesianGrid horizontal={false} stroke={VIZ_GRID} />

@@ -1,6 +1,6 @@
 // Server-side syntax highlighting: Prism.highlight() is synchronous and DOM-free,
 // so this runs at render time on the server and ships zero highlighter JS to the
-// browser — only the resulting <span class="token ..."> markup goes over the wire.
+// browser: only the resulting <span class="token ..."> markup goes over the wire.
 // Colors for those classes live in globals.css.
 import Prism from "prismjs";
 import "prismjs/components/prism-python";

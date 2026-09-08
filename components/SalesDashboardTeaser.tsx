@@ -1,4 +1,5 @@
 import Link from "next/link";
+import QuestionChips from "@/components/dashboard/QuestionChips";
 import { salesDashboard as dashboard } from "@/lib/amazonSalesDashboardContent";
 import { products } from "@/lib/amazonSalesDashboardData";
 import { computeKpis, formatCompactINR, formatCompactNumber } from "@/lib/amazonSalesDashboardStats";
@@ -16,8 +17,11 @@ export default function SalesDashboardTeaser() {
           <h3 className="text-3xl sm:text-4xl font-semibold tracking-tightest leading-tight mb-5 text-balance">
             {dashboard.title}
           </h3>
-          <p className="text-lg text-ink leading-relaxed mb-4">{dashboard.summary}</p>
-          <p className="text-base text-subtle leading-relaxed mb-6">{dashboard.glimpse}</p>
+          <p className="text-lg text-ink leading-relaxed mb-6">{dashboard.summary}</p>
+
+          <div className="mb-6">
+            <QuestionChips questions={dashboard.businessQuestions} limit={3} label="It answers questions like" />
+          </div>
 
           <div className="flex flex-wrap gap-1.5 mb-8">
             {dashboard.skills.map((skill) => {
@@ -85,8 +89,8 @@ export default function SalesDashboardTeaser() {
           </ul>
 
           <p className="text-[11px] text-paper/50 leading-relaxed mt-6 pt-6 border-t border-paper/15">
-            Revenue exposure proxy shown on the dashboard: {formatCompactINR(kpis.estRevenueExposure)} — a modelled
-            figure (price × rating volume), not actual sales revenue.
+            Revenue exposure proxy shown on the dashboard: {formatCompactINR(kpis.estRevenueExposure)}. A modelled
+            figure (price times rating volume), not actual sales revenue.
           </p>
         </div>
       </div>

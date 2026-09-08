@@ -7,13 +7,14 @@ import { VIZ_ACCENT, VIZ_AXIS_TEXT, VIZ_GRID } from "@/lib/vizColors";
 type Props = {
   data: { label: string; count: number }[];
   unitLabel?: string;
+  height?: number;
 };
 
-// A generic single-series bucket histogram, reused for both the price-tier and
-// rating-distribution charts - same shape, different buckets.
-export default function BucketBarChart({ data, unitLabel = "products" }: Props) {
+// A generic single-series bucket histogram (currently used for the
+// rating-distribution chart).
+export default function BucketBarChart({ data, unitLabel = "products", height = 280 }: Props) {
   return (
-    <div className="h-[280px]">
+    <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 4, right: 8, bottom: 4, left: 4 }} barSize={36}>
           <CartesianGrid vertical={false} stroke={VIZ_GRID} />

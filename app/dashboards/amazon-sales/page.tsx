@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import AmazonSalesDashboardApp from "@/components/dashboard/AmazonSalesDashboardApp";
+import QuestionChips from "@/components/dashboard/QuestionChips";
 import Footer from "@/components/Footer";
 import { salesDashboard as dashboard } from "@/lib/amazonSalesDashboardContent";
 import { profile } from "@/lib/content";
@@ -37,12 +38,12 @@ export default function AmazonSalesDashboardPage() {
 
       <main className="pt-14">
         {/* Hero */}
-        <section className="max-w-content mx-auto section-pad pt-20 pb-16">
-          <p className="text-sm tracking-[0.2em] uppercase text-subtle mb-5">Interactive Dashboard</p>
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tightest leading-[1.05] max-w-3xl mb-6 text-balance">
+        <section className="max-w-content mx-auto section-pad pt-14 pb-10">
+          <p className="text-sm tracking-[0.2em] uppercase text-subtle mb-4">Interactive Dashboard</p>
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tightest leading-[1.05] max-w-3xl mb-4 text-balance">
             {dashboard.title}
           </h1>
-          <p className="text-base text-subtle mb-8">
+          <p className="text-base text-subtle mb-6">
             {profile.name} · {dashboard.year} · built on the cleaned{" "}
             <a
               href={dashboard.repoUrl}
@@ -53,7 +54,11 @@ export default function AmazonSalesDashboardPage() {
               Amazon Sales Dataset ↗
             </a>
           </p>
-          <p className="text-xl text-ink leading-relaxed max-w-3xl mb-8">{dashboard.summary}</p>
+          <p className="text-lg text-ink leading-relaxed max-w-3xl mb-6">{dashboard.summary}</p>
+
+          <div className="mb-6">
+            <QuestionChips questions={dashboard.businessQuestions} />
+          </div>
 
           <div className="rounded-[16px] border border-line bg-mist p-5 max-w-3xl">
             <p className="text-[13px] font-semibold text-ink mb-1.5">A note on the metrics</p>
@@ -63,26 +68,9 @@ export default function AmazonSalesDashboardPage() {
 
         <AmazonSalesDashboardApp />
 
-        {/* Business questions this dashboard answers */}
-        <section className="bg-mist py-24">
-          <div className="max-w-content mx-auto section-pad">
-            <h2 className="text-sm tracking-[0.2em] uppercase text-subtle mb-8">
-              Business Questions This Dashboard Answers
-            </h2>
-            <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-4xl">
-              {dashboard.businessQuestions.map((q) => (
-                <li key={q} className="text-[15px] text-ink leading-relaxed pl-5 relative">
-                  <span className="absolute left-0 top-[9px] w-1.5 h-1.5 rounded-full bg-ink/40" aria-hidden />
-                  {q}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
         {/* Closing CTA */}
-        <section className="max-w-content mx-auto section-pad py-24 text-center">
-          <p className="text-lg text-subtle mb-8 max-w-xl mx-auto">
+        <section className="max-w-content mx-auto section-pad py-14 text-center">
+          <p className="text-base text-subtle mb-6 max-w-xl mx-auto">
             Curious how the underlying dataset got here? It started as 1,465 raw, all-text rows.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">

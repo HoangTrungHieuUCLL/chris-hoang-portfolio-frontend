@@ -26,7 +26,7 @@ export default function DiscountVsRatingScatter({ products }: Props) {
 
   return (
     <div>
-      <div className="h-[320px]">
+      <div className="h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 8, right: 16, bottom: 4, left: 4 }}>
             <CartesianGrid stroke={VIZ_GRID} />
@@ -71,7 +71,7 @@ export default function DiscountVsRatingScatter({ products }: Props) {
         </ResponsiveContainer>
       </div>
       <p className="text-[13px] text-subtle leading-relaxed mt-3 px-1">
-        Correlation coefficient: <span className="font-semibold text-ink">{correlation.toFixed(2)}</span> —{" "}
+        Correlation coefficient: <span className="font-semibold text-ink">{correlation.toFixed(2)}</span>,{" "}
         {correlationReadout(correlation)} between discount depth and rating in this selection. Deeper discounts do
         not reliably buy a better rating here.
       </p>
