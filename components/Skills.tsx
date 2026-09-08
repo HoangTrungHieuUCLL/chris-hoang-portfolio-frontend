@@ -1,7 +1,10 @@
-import { skillGroups } from "@/lib/content";
+import { buildSkillGroups } from "@/lib/content";
 import { SKILL_ICONS } from "@/lib/skillIcons";
+import type { Project } from "@/lib/api";
 
-export default function Skills() {
+export default function Skills({ projects }: { projects: Project[] }) {
+  const skillGroups = buildSkillGroups(projects.flatMap((project) => project.tech_stack));
+
   return (
     <section id="skills" className="max-w-content mx-auto section-pad py-28">
       <h2 className="text-sm tracking-[0.2em] uppercase text-subtle mb-10">Skills</h2>

@@ -1,8 +1,5 @@
 import Image from "next/image";
-import { profile, skillGroups } from "@/lib/content";
-import { SKILL_ICONS } from "@/lib/skillIcons";
-
-const heroSkills = Array.from(new Set(skillGroups.flatMap((group) => group.skills)));
+import { profile } from "@/lib/content";
 
 export default function Hero() {
   return (
@@ -16,22 +13,7 @@ export default function Hero() {
             {profile.name}
           </h1>
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            {heroSkills.map((skill) => {
-              const Icon = SKILL_ICONS[skill];
-              return (
-                <span
-                  key={skill}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-sm"
-                >
-                  {Icon ? <Icon size={14} aria-hidden /> : null}
-                  {skill}
-                </span>
-              );
-            })}
-          </div>
-
-          <p className="mt-7 text-xl text-subtle font-medium">{profile.title}</p>
+          <p className="mt-6 text-xl text-subtle font-medium">{profile.title}</p>
           <p className="mt-2 text-base text-subtle italic">&ldquo;{profile.tagline}&rdquo;</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">

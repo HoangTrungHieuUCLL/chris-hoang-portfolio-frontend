@@ -81,10 +81,109 @@ export type SkillGroup = {
   skills: string[];
 };
 
+// Skills shown whether or not a project happens to list them. Everything a
+// project's tech stack mentions is folded in on top of these, see buildSkillGroups.
 export const skillGroups: SkillGroup[] = [
-  { label: "Languages & Data", skills: ["Python", "SQL", "PostgreSQL", "PySpark", "ShinyPython"] },
-  { label: "Cloud & Orchestration", skills: ["Google Cloud Platform", "BigQuery", "CloudRun", "Apache Airflow"] },
+  { label: "Languages & Data", skills: ["Python", "SQL", "PostgreSQL", "PySpark", "pandas"] },
+  { label: "AI & Machine Learning", skills: ["Machine Learning", "PyTorch", "scikit-learn"] },
+  { label: "Computer Vision", skills: ["OpenCV", "Computer Vision"] },
+  { label: "Cloud & Orchestration", skills: ["Google Cloud Platform", "BigQuery", "CloudRun", "Apache Airflow", "Docker"] },
   { label: "Visualisation & BI", skills: ["Power BI", "Looker Studio", "Matplotlib", "Seaborn", "Plotly"] },
   { label: "Web", skills: ["TypeScript", "JavaScript", "HTML5", "CSS3", "Java"] },
-  { label: "Other", skills: ["Excel VBA", "Machine Learning", "Docker"] },
+  { label: "Other", skills: ["Excel VBA"] },
 ];
+
+// Different projects spell the same thing differently; fold those together so a
+// skill cannot appear twice under two names.
+const skillAliases: Record<string, string> = {
+  CSS: "CSS3",
+  ShinyPython: "Shiny for Python",
+  Javascript: "JavaScript",
+  Postgres: "PostgreSQL",
+};
+
+// Where a skill coming from a project's tech stack belongs. Anything unlisted
+// falls into the last group, so a new project never gets dropped silently.
+const skillCategories: Record<string, string> = {
+  // Languages & Data
+  Python: "Languages & Data",
+  SQL: "Languages & Data",
+  PostgreSQL: "Languages & Data",
+  pandas: "Languages & Data",
+  // AI & Machine Learning
+  "Machine Learning": "AI & Machine Learning",
+  PyTorch: "AI & Machine Learning",
+  "scikit-learn": "AI & Machine Learning",
+  BERT: "AI & Machine Learning",
+  LayoutLM: "AI & Machine Learning",
+  LSTM: "AI & Machine Learning",
+  DBSCAN: "AI & Machine Learning",
+  "TF-IDF": "AI & Machine Learning",
+  NLTK: "AI & Machine Learning",
+  "Random Forest": "AI & Machine Learning",
+  "Google Gemini": "AI & Machine Learning",
+  "Tracking Data": "AI & Machine Learning",
+  // Computer Vision
+  OpenCV: "Computer Vision",
+  "Computer Vision": "Computer Vision",
+  YOLO11: "Computer Vision",
+  Ultralytics: "Computer Vision",
+  ByteTrack: "Computer Vision",
+  ConvNeXtV2: "Computer Vision",
+  EasyOCR: "Computer Vision",
+  MiDaS: "Computer Vision",
+  // Cloud & Orchestration
+  "Google Cloud Platform": "Cloud & Orchestration",
+  "Apache Airflow": "Cloud & Orchestration",
+  Docker: "Cloud & Orchestration",
+  // Visualisation & BI
+  "Power BI": "Visualisation & BI",
+  Plotly: "Visualisation & BI",
+  Streamlit: "Visualisation & BI",
+  "Shiny for Python": "Visualisation & BI",
+  mplsoccer: "Visualisation & BI",
+  // Web
+  TypeScript: "Web",
+  JavaScript: "Web",
+  HTML5: "Web",
+  CSS3: "Web",
+  Java: "Web",
+  React: "Web",
+  "Next.js": "Web",
+  Express: "Web",
+  Flask: "Web",
+  "Web Speech API": "Web",
+  "Web App": "Web",
+  // Other
+  "Excel VBA": "Other",
+  PyGame: "Other",
+  "Agile/SCRUM": "Other",
+};
+
+/**
+ * Merges the curated skills above with every skill listed on a project, so the
+ * Skills section stays in step with the projects without being edited by hand.
+ */
+export function buildSkillGroups(projectSkills: string[]): SkillGroup[] {
+  const fallback = skillGroups[skillGroups.length - 1].label;
+  const grouped = new Map<string, string[]>(
+    skillGroups.map((group) => [group.label, [...group.skills]] as [string, string[]])
+  );
+  const known = new Set(skillGroups.flatMap((group) => group.skills));
+
+  for (const raw of projectSkills) {
+    const skill = skillAliases[raw] ?? raw;
+    if (known.has(skill)) continue;
+    known.add(skill);
+
+    const label = skillCategories[skill] ?? fallback;
+    const bucket = grouped.get(label);
+    if (bucket) {
+      bucket.push(skill);
+    } else {
+      grouped.set(label, [skill]);
+    }
+  }
+
+  return Array.from(grouped, ([label, skills]) => ({ label, skills })).filter((group) => group.skills.length > 0);
+}
