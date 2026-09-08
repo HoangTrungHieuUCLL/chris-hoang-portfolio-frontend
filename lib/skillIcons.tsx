@@ -10,8 +10,10 @@ import {
   SiGooglegemini,
   SiHtml5,
   SiJavascript,
+  SiJupyter,
   SiLooker,
   SiNextdotjs,
+  SiNumpy,
   SiOpencv,
   SiOpenjdk,
   SiPandas,
@@ -53,4 +55,6 @@ export const SKILL_ICONS: Record<string, IconType> = {
   Streamlit: SiStreamlit,
   "Looker Studio": SiLooker,
   Java: SiOpenjdk,
+  NumPy: SiNumpy,
+  Jupyter: SiJupyter,
 };

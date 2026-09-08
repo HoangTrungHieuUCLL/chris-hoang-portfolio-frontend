@@ -4,6 +4,7 @@ import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
+import DataCleaningReport from "@/components/DataCleaningReport";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { getProjects } from "@/lib/api";
@@ -20,6 +21,7 @@ export default async function Home() {
         <About />
         <Experience />
         <Projects projects={projects} />
+        <DataCleaningReport />
         <Contact />
       </main>
       <Footer />
