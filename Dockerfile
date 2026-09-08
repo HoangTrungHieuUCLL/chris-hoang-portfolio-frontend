@@ -1,5 +1,12 @@
 FROM node:22-alpine AS deps
 WORKDIR /app
+# @letta-ai/letta-agent-sdk pulls in @letta-ai/letta-code, which depends on
+# node-pty (a native addon). No prebuilt binary is published for this
+# platform, so npm falls back to compiling it via node-gyp, which needs
+# Python and a C/C++ toolchain - neither of which node:alpine ships by
+# default. Without this, npm install fails with "Could not find any Python
+# installation to use".
+RUN apk add --no-cache python3 make g++
 COPY package.json package-lock.json* ./
 RUN npm install
 
