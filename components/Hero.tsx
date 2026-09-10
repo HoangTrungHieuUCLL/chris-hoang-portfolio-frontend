@@ -4,6 +4,11 @@ import HeroFeaturedWork from "@/components/HeroFeaturedWork";
 import { profile } from "@/lib/content";
 import chatStyles from "@/styles/pollux-chat.module.css";
 
+// Playful variants on profile.title, just for this chip row - profile.title
+// itself stays the formal "Data Analyst & AI Engineer" used in <title> and
+// Open Graph metadata (app/layout.tsx).
+const roleChips = ["Data Analyst", "Data Engineer", "Enthusiastic AI Engineer", "Beautiful design lover"];
+
 // Everything a first-time, non-technical visitor needs without scrolling:
 // who Chris is, what he's looking for, a way to just ask ("chat with
 // Pollux" instead of reading), and proof of work. The floating widget
@@ -13,9 +18,10 @@ import chatStyles from "@/styles/pollux-chat.module.css";
 export default function Hero() {
   return (
     <section id="top" className="relative">
-      {/* pt-14/md:pt-20 clears the fixed h-14 Nav (bg-paper/70 backdrop-blur) -
-          don't shrink this below the Nav's own height or it overlaps. */}
-      <div className="max-w-content mx-auto section-pad pt-14 pb-6 md:pt-20 md:pb-8">
+      {/* pt-20/md:pt-24 clears the fixed h-14 Nav (bg-paper/70 backdrop-blur)
+          with room to spare - pt-14 (exactly the Nav's height) left the
+          avatar touching the Nav's bottom edge on phone screens. */}
+      <div className="max-w-content mx-auto section-pad pt-20 pb-6 md:pt-24 md:pb-8">
         <div className="flex flex-wrap items-center gap-5 sm:gap-6">
           <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full overflow-hidden ring-1 ring-line">
             <Image
@@ -30,9 +36,18 @@ export default function Hero() {
           <div className="min-w-0">
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tightest leading-tight">
               {profile.name}
-              <span className="text-subtle font-medium"> · {profile.title}</span>
             </h1>
-            <p className="mt-1 text-sm text-subtle">{profile.location}</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {roleChips.map((role) => (
+                <span
+                  key={role}
+                  className="inline-flex items-center text-[12px] rounded-full bg-mist px-2.5 py-1 text-subtle"
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+            <p className="mt-2 text-sm text-subtle">{profile.location}</p>
             <p className="mt-2 inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink">
               Are you looking for a Data Analyst, Data Engineer or AI Engineer?
             </p>

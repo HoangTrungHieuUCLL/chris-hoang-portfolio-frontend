@@ -40,7 +40,7 @@ export function ChatPanel({
   return (
     <div className={styles.panelInner}>
       <header className={styles.panelHeader}>
-        <span className={styles.panelTitle}>Chat with Pollux</span>
+        <span className={styles.panelTitle}>Any question for me? Ask my assistant.</span>
         <div className={styles.panelHeaderActions}>
           {chat.messages.length > 0 && (
             <button
