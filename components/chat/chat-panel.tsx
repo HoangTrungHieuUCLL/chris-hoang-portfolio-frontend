@@ -31,7 +31,11 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               className={styles.panelClose}
               disabled={chat.isDeleting}
               onClick={() => {
-                if (window.confirm("Delete this conversation? This can't be undone.")) {
+                if (
+                  window.confirm(
+                    "Delete this conversation? There's no way back to it after this — ever.",
+                  )
+                ) {
                   void chat.deleteChat();
                 }
               }}

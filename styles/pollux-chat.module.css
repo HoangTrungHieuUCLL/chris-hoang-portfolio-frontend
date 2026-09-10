@@ -239,6 +239,15 @@
   line-height: 1.5;
 }
 
+.emptyNotice {
+  max-width: 280px;
+  margin: 4px 0 0;
+  color: var(--chat-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
 .message {
   margin-bottom: 20px;
   font-size: 0.9375rem;

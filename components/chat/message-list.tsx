@@ -36,6 +36,12 @@ export function MessageList({
             I know Chris&rsquo;s work inside and out, but I won&rsquo;t guess. If I don&rsquo;t know
             something, I&rsquo;ll say so and point you to his email instead.
           </p>
+          <p className={styles.emptyNotice}>
+            Heads up: I don&rsquo;t save anything that could identify you personally, but
+            everything sent and received here is recorded and stored in an encrypted
+            database &mdash; let&rsquo;s keep it professional. Hit the trash icon above and
+            it&rsquo;s gone from your side for good &mdash; there&rsquo;s no way back to it, ever.
+          </p>
         </div>
       )}
       {hasOlderMessages && !isLoading && (
