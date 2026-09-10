@@ -528,3 +528,44 @@
     transform: rotate(360deg);
   }
 }
+
+/* "Are you a recruiter?" - shown in place of the composer until answered, so
+   the first message always reaches Pollux with the answer prepended. */
+.gate {
+  flex-shrink: 0;
+  margin: 0 12px 12px;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--chat-border);
+  border-radius: var(--chat-user-radius);
+  background: var(--chat-background);
+}
+.gateQuestion {
+  margin: 0 0 10px;
+  color: var(--chat-text);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.gateOptions {
+  display: flex;
+  gap: 8px;
+}
+.gateOption {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--chat-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--chat-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.gateOption:hover {
+  border-color: var(--chat-muted);
+  background: var(--chat-code-background);
+}
+.gateOption:focus-visible {
+  outline: 2px solid var(--chat-text);
+  outline-offset: 2px;
+}

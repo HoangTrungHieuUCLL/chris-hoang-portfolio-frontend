@@ -5,6 +5,7 @@ import {
   type TranscriptRow,
 } from "@letta-ai/letta-agent-sdk/client";
 import { toBrowserRow, type BrowserEvent, type BrowserRow } from "./browser-events";
+import { stripVisitorKindPrefix } from "./visitor-kind";
 
 // The one place this application reads SDK message shapes.
 //
@@ -50,7 +51,7 @@ export function createStreamProjection() {
       for (const row of accumulator.apply(message)) {
         if (sent.get(row.key) === row) continue;
         sent.set(row.key, row);
-        events.push({ type: "row", row: toBrowserRow(row) });
+        events.push({ type: "row", row: hideUserScaffolding(toBrowserRow(row)) });
       }
       return events;
     },
@@ -65,8 +66,17 @@ export function createStreamProjection() {
 const AUTOMATED_REMINDER =
   /<system-reminder>\s*This is an automated message providing (?:context about the user's environment|information about you)[\s\S]*?<\/system-reminder>\s*/g;
 
+/** `visibleUserText` applied to a row, for the paths that hand rows straight
+ * to the browser. Every user row reaching the browser goes through this,
+ * whether it came from the live stream or from restored history. */
+function hideUserScaffolding(row: BrowserRow): BrowserRow {
+  return row.kind === "user" ? { ...row, text: visibleUserText(row.text) } : row;
+}
+
 export function visibleUserText(text: string) {
-  return text.replace(AUTOMATED_REMINDER, "").trim();
+  // The recruiter-question prefix is scaffolding this widget added to the
+  // first message, not something the visitor typed, so it comes off here too.
+  return stripVisitorKindPrefix(text.replace(AUTOMATED_REMINDER, "").trim());
 }
 
 function record(value: unknown) {

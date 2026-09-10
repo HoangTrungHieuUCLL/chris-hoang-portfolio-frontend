@@ -5,6 +5,7 @@ import {
 } from "@letta-ai/letta-agent-sdk/client";
 import type { BrowserEvent } from "@/lib/letta/browser-events";
 import { createStreamProjection, projectHistoryRows } from "@/lib/letta/sdk-rows";
+import { applyVisitorKindPrefix, isVisitorKind } from "@/lib/letta/visitor-kind";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import {
   clientIp,
@@ -13,6 +14,7 @@ import {
   visitorCookieHeader,
   withConversation,
   withoutConversation,
+  withVisitorKind,
   type Visitor,
 } from "@/lib/security/visitor";
 
@@ -130,7 +132,15 @@ export async function GET(request: Request) {
     }
 
     if (!existingVisitor?.conversationId) {
-      return withCookie(Response.json({ conversationId: null, rows: [], hasMore: false }), setCookie);
+      return withCookie(
+        Response.json({
+          conversationId: null,
+          rows: [],
+          hasMore: false,
+          visitorKind: existingVisitor?.kind ?? null,
+        }),
+        setCookie,
+      );
     }
 
     const client = getClient();
@@ -142,7 +152,15 @@ export async function GET(request: Request) {
         // The stored conversation no longer matches this deployment's agent
         // (e.g. LETTA_CHAT_AGENT_ID changed). Rather than error out, treat it
         // like a fresh visitor - the next message starts a new conversation.
-        return withCookie(Response.json({ conversationId: null, rows: [], hasMore: false }), setCookie);
+        return withCookie(
+          Response.json({
+            conversationId: null,
+            rows: [],
+            hasMore: false,
+            visitorKind: existingVisitor.kind ?? null,
+          }),
+          setCookie,
+        );
       }
       return withCookie(
         Response.json({
@@ -151,6 +169,7 @@ export async function GET(request: Request) {
           limit,
           hasMore: state.hasMore ?? false,
           hasPendingApproval: state.hasPendingApproval ?? false,
+          visitorKind: existingVisitor.kind ?? null,
         }),
         setCookie,
       );
@@ -171,7 +190,9 @@ function withCookie(response: Response, setCookie: string | undefined) {
 /**
  * Removes the visitor's one conversation: archives it on Letta Cloud (the
  * SDK has no hard delete - see the comment below) and clears it from their
- * cookie, so the widget returns to its empty first-visit state. From the
+ * cookie (their recruiter answer along with it, so the question is asked
+ * again on the next conversation), so the widget returns to its empty
+ * first-visit state. From the
  * visitor's side this is indistinguishable from a real delete: the cookie
  * was their only reference to that conversation ID, so once it's cleared
  * they have no way back to it either way. Idempotent: a visitor with no
@@ -255,14 +276,33 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = (await request.json()) as { message?: unknown; otid?: unknown };
+    const body = (await request.json()) as {
+      message?: unknown;
+      otid?: unknown;
+      visitorKind?: unknown;
+    };
     if (typeof body.message !== "string" || !body.message.trim()) {
       return jsonError({ error: "Message is required." }, 400);
     }
     const message = body.message.trim();
 
+    // The widget gates its composer behind "Are you a recruiter?" and sends
+    // the answer with the first message. A cookie already carrying one wins:
+    // it was established server-side and outlives a reload, whereas the body
+    // is whatever this request happened to bring.
+    if (!visitor.kind && isVisitorKind(body.visitorKind)) {
+      visitor = withVisitorKind(visitor, body.visitorKind);
+      setCookie = visitorCookieHeader(visitor);
+    }
+
     const client = getClient();
     const agentId = requireEnvironmentVariable("LETTA_CHAT_AGENT_ID");
+
+    // Only the message that opens a conversation carries the recruiter
+    // prefix; every later message in it is sent exactly as typed. Set below,
+    // where a conversation is actually created - a stale pointer that
+    // self-heals into a new conversation counts as a first message too.
+    let isFirstMessage = false;
 
     let conversationId = visitor.conversationId;
     if (conversationId) {
@@ -280,6 +320,7 @@ export async function POST(request: Request) {
         summary: message.slice(0, 60),
       });
       conversationId = created.id;
+      isFirstMessage = true;
       visitor = withConversation(visitor, conversationId);
       setCookie = visitorCookieHeader(visitor);
     }
@@ -303,7 +344,12 @@ export async function POST(request: Request) {
     // persisted message comes back carrying the same value and the
     // optimistic row is reconciled instead of duplicated.
     const otid = typeof body.otid === "string" && body.otid.trim() ? body.otid.trim() : undefined;
-    await session.send(message, otid ? { otid } : undefined);
+    // What Letta receives, which is not what the transcript shows: the prefix
+    // is prompt scaffolding, so the browser renders the typed text alone and
+    // `visibleUserText` strips the prefix back off when history is restored.
+    const outgoing =
+      isFirstMessage && visitor.kind ? applyVisitorKindPrefix(visitor.kind, message) : message;
+    await session.send(outgoing, otid ? { otid } : undefined);
   } catch (error) {
     session?.close();
     return jsonError({ error: errorMessage(error) }, 500);

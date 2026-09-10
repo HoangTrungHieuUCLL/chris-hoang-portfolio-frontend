@@ -1,4 +1,5 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { isVisitorKind, type VisitorKind } from "@/lib/letta/visitor-kind";
 
 /**
  * Per-visitor identity for the Pollux chat widget, entirely stateless: no
@@ -29,11 +30,15 @@ type VisitorPayload = {
   v: number;
   id: string;
   conversationId?: string;
+  /** Their answer to "Are you a recruiter?", once given. Optional, so a
+   * cookie issued before this existed still parses as a valid identity. */
+  kind?: VisitorKind;
 };
 
 export type Visitor = {
   id: string;
   conversationId?: string;
+  kind?: VisitorKind;
 };
 
 function getSecret(): string {
@@ -85,7 +90,9 @@ function parse(cookieValue: string): VisitorPayload | undefined {
       (decoded as VisitorPayload).v !== COOKIE_VERSION ||
       typeof (decoded as VisitorPayload).id !== "string" ||
       ((decoded as VisitorPayload).conversationId !== undefined &&
-        typeof (decoded as VisitorPayload).conversationId !== "string")
+        typeof (decoded as VisitorPayload).conversationId !== "string") ||
+      ((decoded as VisitorPayload).kind !== undefined &&
+        !isVisitorKind((decoded as VisitorPayload).kind))
     ) {
       return undefined;
     }
@@ -116,7 +123,7 @@ export function readVisitor(request: Request): Visitor | undefined {
   if (!raw) return undefined;
   const payload = parse(raw);
   if (!payload) return undefined;
-  return { id: payload.id, conversationId: payload.conversationId };
+  return { id: payload.id, conversationId: payload.conversationId, kind: payload.kind };
 }
 
 /** Creates a brand new visitor identity with no conversation yet. */
@@ -127,7 +134,14 @@ export function createVisitor(): Visitor {
 /** Returns a visitor with `conversationId` set as their one ongoing
  * conversation. */
 export function withConversation(visitor: Visitor, conversationId: string): Visitor {
-  return { id: visitor.id, conversationId };
+  return { id: visitor.id, conversationId, kind: visitor.kind };
+}
+
+/** Returns a visitor carrying their answer to the recruiter question, so a
+ * visitor who answers and then reloads before typing anything isn't asked
+ * again (and their first message still gets the right prefix). */
+export function withVisitorKind(visitor: Visitor, kind: VisitorKind): Visitor {
+  return { ...visitor, kind };
 }
 
 /** Returns a visitor with its conversation cleared (same identity, so rate
@@ -141,7 +155,12 @@ export function withoutConversation(visitor: Visitor): Visitor {
  * that establishes or updates an identity (a fresh visitor, or one who just
  * got a conversation for the first time). */
 export function visitorCookieHeader(visitor: Visitor): string {
-  const value = serialize({ v: COOKIE_VERSION, id: visitor.id, conversationId: visitor.conversationId });
+  const value = serialize({
+    v: COOKIE_VERSION,
+    id: visitor.id,
+    conversationId: visitor.conversationId,
+    kind: visitor.kind,
+  });
   // `Secure` is safe for local dev too: browsers treat http://localhost as a
   // secure context. SameSite=Lax is fine since this widget is served from
   // the same site it's embedded in (no cross-origin iframe involved).

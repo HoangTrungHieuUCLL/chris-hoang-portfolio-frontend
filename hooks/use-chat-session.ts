@@ -10,6 +10,7 @@ import {
   type LiveTranscript,
 } from "@/lib/letta/browser-events";
 import { messagesFromRows } from "@/lib/letta/transcript";
+import { isVisitorKind, type VisitorKind } from "@/lib/letta/visitor-kind";
 
 /** Matches the server's first page. "Load older messages" asks for one more. */
 const HISTORY_PAGE = 100;
@@ -20,6 +21,7 @@ type BootstrapResponse = {
   limit?: number;
   hasMore?: boolean;
   hasPendingApproval?: boolean;
+  visitorKind?: VisitorKind | null;
   error?: string;
 };
 
@@ -52,6 +54,10 @@ export function useChatSession() {
   const [hasOlderMessages, setHasOlderMessages] = useState(false);
   const [hasPendingApproval, setHasPendingApproval] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  // Their answer to "Are you a recruiter?" - restored from the signed cookie
+  // by the bootstrap, or set here when they answer the gate. `undefined`
+  // means "not answered yet"; the gate below is what asks.
+  const [visitorKind, setVisitorKind] = useState<VisitorKind>();
 
   // `retry`, `error`, and the terminal result are turn-level signals rather than
   // rows, so they are applied to the trailing message here.
@@ -70,6 +76,7 @@ export function useChatSession() {
         setLive({ rows: result.rows, applied: [] });
         setHasOlderMessages(result.hasMore ?? false);
         setHasPendingApproval(result.hasPendingApproval ?? false);
+        if (isVisitorKind(result.visitorKind)) setVisitorKind(result.visitorKind);
       } catch (error) {
         if (!cancelled) {
           setNavigationError(
@@ -142,7 +149,10 @@ export function useChatSession() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, otid }),
+        // The prefix itself is applied server-side, on the conversation's
+        // first message only - the row rendered above deliberately shows the
+        // typed text alone.
+        body: JSON.stringify({ message: text, otid, visitorKind }),
       });
       if (!response.ok) {
         const body = (await response.json()) as { error?: string };
@@ -185,6 +195,9 @@ export function useChatSession() {
       setHistoryLimit(HISTORY_PAGE);
       setHasOlderMessages(false);
       setHasPendingApproval(false);
+      // The DELETE handler drops the answer from the cookie too, so the next
+      // conversation starts by asking again.
+      setVisitorKind(undefined);
     } catch (error) {
       setNavigationError(
         error instanceof Error ? error.message : "Could not delete the conversation.",
@@ -196,6 +209,11 @@ export function useChatSession() {
 
   return {
     messages,
+    // Asked once, before a visitor can type: only on an empty conversation,
+    // and only while they haven't answered (in this panel or in an earlier
+    // visit, via the cookie).
+    needsVisitorKind: !isNavigating && !visitorKind && messages.length === 0,
+    chooseVisitorKind: setVisitorKind,
     input,
     setInput,
     isSending,

@@ -2,6 +2,7 @@
 
 import { ChatComposer } from "./chat-composer";
 import { MessageList } from "./message-list";
+import { VisitorKindGate } from "./visitor-kind-gate";
 import { useChatSession } from "@/hooks/use-chat-session";
 import { useFollowOutput } from "@/hooks/use-follow-output";
 import styles from "@/styles/pollux-chat.module.css";
@@ -71,13 +72,17 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
       {chat.navigationError && <p className={`${styles.notice} ${styles.error}`}>{chat.navigationError}</p>}
 
-      <ChatComposer
-        input={chat.input}
-        isNavigating={chat.isNavigating}
-        isSending={chat.isSending}
-        onInputChange={chat.setInput}
-        onSubmit={chat.sendMessage}
-      />
+      {chat.needsVisitorKind ? (
+        <VisitorKindGate onChoose={chat.chooseVisitorKind} />
+      ) : (
+        <ChatComposer
+          input={chat.input}
+          isNavigating={chat.isNavigating}
+          isSending={chat.isSending}
+          onInputChange={chat.setInput}
+          onSubmit={chat.sendMessage}
+        />
+      )}
     </div>
   );
 }
