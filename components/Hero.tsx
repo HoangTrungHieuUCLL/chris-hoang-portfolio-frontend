@@ -9,6 +9,11 @@ import chatStyles from "@/styles/pollux-chat.module.css";
 // Open Graph metadata (app/layout.tsx).
 const roleChips = ["Data Analyst", "Data Engineer", "Enthusiastic AI Engineer", "Beautiful design lover"];
 
+// One shared look for every pill under the name - role chips, location, and
+// the "Are you looking for..." line - so they read as one family instead of
+// three different sizes/colors.
+const chipClass = "inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm text-subtle";
+
 // Everything a first-time, non-technical visitor needs without scrolling:
 // who Chris is, what he's looking for, a way to just ask ("chat with
 // Pollux" instead of reading), and proof of work. The floating widget
@@ -22,7 +27,7 @@ export default function Hero() {
           with room to spare - pt-14 (exactly the Nav's height) left the
           avatar touching the Nav's bottom edge on phone screens. */}
       <div className="max-w-content mx-auto section-pad pt-20 pb-6 md:pt-24 md:pb-8">
-        <div className="flex flex-wrap items-center gap-5 sm:gap-6">
+        <div className="flex flex-wrap items-start gap-5 sm:gap-6">
           <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full overflow-hidden ring-1 ring-line">
             <Image
               src="/chris-hoang-cover-2.jpeg"
@@ -39,16 +44,13 @@ export default function Hero() {
             </h1>
             <div className="mt-2 flex flex-wrap gap-1.5">
               {roleChips.map((role) => (
-                <span
-                  key={role}
-                  className="inline-flex items-center text-[12px] rounded-full bg-mist px-2.5 py-1 text-subtle"
-                >
+                <span key={role} className={chipClass}>
                   {role}
                 </span>
               ))}
+              <span className={chipClass}>{profile.location}</span>
             </div>
-            <p className="mt-2 text-sm text-subtle">{profile.location}</p>
-            <p className="mt-2 inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink">
+            <p className={`mt-2 ${chipClass}`}>
               Are you looking for a Data Analyst, Data Engineer or AI Engineer?
             </p>
           </div>
