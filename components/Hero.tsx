@@ -33,9 +33,8 @@ export default function Hero() {
               <span className="text-subtle font-medium"> · {profile.title}</span>
             </h1>
             <p className="mt-1 text-sm text-subtle">{profile.location}</p>
-            <p className="mt-2 inline-flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink">
-              <span className="w-1.5 h-1.5 rounded-full bg-ink shrink-0" aria-hidden />
-              Looking for: {profile.lookingFor}
+            <p className="mt-2 inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink">
+              Are you looking for a Data Analyst, Data Engineer or AI Engineer?
             </p>
           </div>
         </div>
