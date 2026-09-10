@@ -1,10 +1,8 @@
 import { profile } from "@/lib/content";
 
 const links = [
-  { href: "#skills", label: "Skills" },
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
   { href: "#data-cleaning", label: "Report" },
   { href: "#sales-dashboard", label: "Dashboard" },
   { href: "#contact", label: "Contact" },
@@ -26,13 +24,20 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a
-          href={profile.resumeUrl}
-          className="text-[13px] font-medium bg-ink text-paper rounded-full px-4 py-1.5 hover:opacity-80 transition-opacity"
-          download
-        >
-          Resume
-        </a>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="#skills"
+            className="text-[12px] sm:text-[13px] font-medium bg-ink text-paper rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap hover:opacity-80 transition-opacity"
+          >
+            Skills Overview
+          </a>
+          <a
+            href="#projects"
+            className="text-[12px] sm:text-[13px] font-medium bg-paper border border-line rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap hover:bg-mist transition-colors"
+          >
+            View Projects
+          </a>
+        </div>
       </nav>
     </header>
   );

@@ -27,13 +27,6 @@ export default function Footer() {
               <Icon size={18} />
             </a>
           ))}
-          <a
-            href={profile.resumeUrl}
-            download
-            className="text-sm font-medium underline underline-offset-4 text-subtle hover:text-ink transition-colors"
-          >
-            Résumé
-          </a>
         </div>
       </div>
     </footer>

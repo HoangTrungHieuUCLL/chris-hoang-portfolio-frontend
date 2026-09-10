@@ -10,7 +10,7 @@ export const profile = {
     "I specialise in turning messy, raw data into pipelines other teams can actually build on, from raw analysis to designing and building ETL/ELT infrastructure on time-series data. At IKEA Belgium that meant eight stores, eight sets of systems, and no single source of truth. I tracked down the data owners across teams, structured the data so it made sense to different stakeholders, and organised and ran the project myself end to end. What came out of it was an automated forecast pipeline with validation checks that caught bad data before it reached anyone downstream, plus the dashboard tooling built on top of it. Along the way I trained ML models that shipped, not just ones that worked in a notebook.",
     "I work fluently across SQL and PostgreSQL, Python, and data modelling, including PySpark for large datasets, plus Power BI and Google Cloud Platform. I bring an AI-first mindset, using modern AI coding assistants daily to accelerate pipeline development, automate routine data tasks, and optimise existing codebases. I have no patience for a number that doesn't add up. Raw data only becomes useful once it's structured enough for someone else to build on it.",
   ],
-  lookingFor: "Junior positions in Data Analyst, Data Engineer, and AI Engineer roles.",
+  lookingFor: "Positions in Data Analyst, Data Engineer, and AI Engineer roles.",
   languages: [
     { name: "Vietnamese", level: "Native" },
     { name: "English", level: "Fluent - C1" },
@@ -22,7 +22,6 @@ export const profile = {
     github: "https://github.com/HoangTrungHieuUCLL",
     instagram: "https://www.instagram.com/nojagerbombforchris/",
   },
-  resumeUrl: "/resume.pdf",
 };
 
 export type Experience = {

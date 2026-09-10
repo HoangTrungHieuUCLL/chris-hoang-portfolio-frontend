@@ -13,7 +13,9 @@ import chatStyles from "@/styles/pollux-chat.module.css";
 export default function Hero() {
   return (
     <section id="top" className="relative">
-      <div className="max-w-content mx-auto px-6 sm:px-10 pt-14 pb-10 md:pt-20 md:pb-14">
+      {/* pt-14/md:pt-20 clears the fixed h-14 Nav (bg-paper/70 backdrop-blur) -
+          don't shrink this below the Nav's own height or it overlaps. */}
+      <div className="max-w-content mx-auto section-pad pt-14 pb-6 md:pt-20 md:pb-8">
         <div className="flex flex-wrap items-center gap-5 sm:gap-6">
           <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full overflow-hidden ring-1 ring-line">
             <Image
@@ -30,30 +32,16 @@ export default function Hero() {
               {profile.name}
               <span className="text-subtle font-medium"> · {profile.title}</span>
             </h1>
-            <p className="mt-1 text-sm text-subtle">
-              {profile.location} &middot; Looking for: {profile.lookingFor}
+            <p className="mt-1 text-sm text-subtle">{profile.location}</p>
+            <p className="mt-2 inline-flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink">
+              <span className="w-1.5 h-1.5 rounded-full bg-ink shrink-0" aria-hidden />
+              Looking for: {profile.lookingFor}
             </p>
-            <p className="mt-0.5 text-sm text-subtle italic">&ldquo;{profile.tagline}&rdquo;</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
-            <a
-              href="#skills"
-              className="rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-opacity"
-            >
-              Skills Overview
-            </a>
-            <a
-              href="#projects"
-              className="rounded-full bg-paper border border-line px-5 py-2.5 text-sm font-medium hover:bg-mist transition-colors"
-            >
-              View Projects
-            </a>
           </div>
         </div>
       </div>
 
-      <div className="max-w-content mx-auto px-6 sm:px-10 pb-16 md:pb-24 grid lg:grid-cols-5 gap-6 items-stretch">
+      <div className="max-w-content mx-auto section-pad pb-10 md:pb-14 grid lg:grid-cols-5 gap-6 items-stretch">
         <div className={`${chatStyles.widgetRoot} ${chatStyles.widgetRootEmbedded} lg:col-span-3`}>
           <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-4">Ask Pollux</p>
           <div className={chatStyles.embeddedPanel}>
