@@ -273,9 +273,8 @@
   max-width: 280px;
   margin: 4px 0 0;
   color: var(--chat-muted);
-  font-size: 0.75rem;
-  line-height: 1.45;
-  opacity: 0.85;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .message {
@@ -569,13 +568,17 @@
 }
 
 /* "Are you a recruiter?" - shown in place of the composer until answered, so
-   the first message always reaches Pollux with the answer prepended. */
+   the first message always reaches Pollux with the answer prepended.
+   Radius is its own value, not --chat-user-radius (20px, sized for small
+   message bubbles): at this card's 12px inset from the panel's 20px-radius
+   corners, that value read as noticeably rounder than the outer box instead
+   of nesting inside its curve. */
 .gate {
   flex-shrink: 0;
   margin: 0 12px 12px;
   padding: 12px 14px 14px;
   border: 1px solid var(--chat-border);
-  border-radius: var(--chat-user-radius);
+  border-radius: 14px;
   background: var(--chat-background);
 }
 .gateQuestion {
