@@ -59,7 +59,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
               onClick={() => scrollByPage(-1)}
               disabled={atStart}
               aria-label="Scroll projects left"
-              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:bg-paper transition-colors disabled:opacity-30 disabled:pointer-events-none"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center transition hover:bg-paper active:scale-90 disabled:opacity-30 disabled:pointer-events-none"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -70,7 +70,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
               onClick={() => scrollByPage(1)}
               disabled={atEnd}
               aria-label="Scroll projects right"
-              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:bg-paper transition-colors disabled:opacity-30 disabled:pointer-events-none"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center transition hover:bg-paper active:scale-90 disabled:opacity-30 disabled:pointer-events-none"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

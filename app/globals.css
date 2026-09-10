@@ -28,6 +28,35 @@ body {
   display: none;
 }
 
+/* Scroll-triggered entrance for below-the-fold sections (components/Reveal.tsx).
+   Starts hidden - matches this Client Component's first render on both server
+   and client, so there's no hydration mismatch - and fades/slides in once
+   IntersectionObserver confirms the section is in view. ease-out (fast start)
+   per the web-animation-design skill's entrance guidance. Hero is deliberately
+   left out of this: it must be visible the instant the page loads, not after
+   a delay. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Syntax highlighting for code blocks (components/CodeBlock.tsx). Prism.highlight()
    runs server-side and produces these token classes; only the colors live here. */
 code .token.comment {

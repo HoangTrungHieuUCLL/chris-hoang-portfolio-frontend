@@ -30,7 +30,7 @@ export default function HeroFeaturedWork() {
           <Link
             key={item.href}
             href={item.href}
-            className="group flex-1 rounded-2xl border border-line p-5 hover:bg-mist transition-colors"
+            className="group flex-1 rounded-2xl border border-line p-5 transition duration-200 hover:bg-mist hover:border-line active:scale-[0.99]"
           >
             <p className="text-[11px] tracking-wide uppercase text-subtle mb-2">{item.eyebrow}</p>
             <h3 className="text-lg font-semibold tracking-tight leading-snug mb-2 text-balance">
@@ -38,7 +38,10 @@ export default function HeroFeaturedWork() {
             </h3>
             <p className="text-sm text-subtle leading-relaxed line-clamp-3">{item.summary}</p>
             <span className="mt-3 inline-flex items-center gap-1 text-[13px] font-medium text-ink">
-              View <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              View{" "}
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
             </span>
           </Link>
         ))}

@@ -65,7 +65,7 @@ export default function Contact() {
                 name="name"
                 required
                 maxLength={120}
-                className="w-full rounded-lg border border-line px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-ink"
+                className="w-full rounded-lg border border-line px-4 py-3 text-base transition-shadow duration-150 focus:outline-none focus:ring-2 focus:ring-ink"
               />
             </div>
             <div>
@@ -77,7 +77,7 @@ export default function Contact() {
                 name="email"
                 type="email"
                 required
-                className="w-full rounded-lg border border-line px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-ink"
+                className="w-full rounded-lg border border-line px-4 py-3 text-base transition-shadow duration-150 focus:outline-none focus:ring-2 focus:ring-ink"
               />
             </div>
             <div>
@@ -90,14 +90,14 @@ export default function Contact() {
                 required
                 rows={5}
                 maxLength={4000}
-                className="w-full rounded-lg border border-line px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-ink"
+                className="w-full rounded-lg border border-line px-4 py-3 text-base transition-shadow duration-150 focus:outline-none focus:ring-2 focus:ring-ink"
               />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
             <button
               type="submit"
               disabled={status === "sending"}
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity disabled:opacity-50"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium transition hover:opacity-80 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100"
             >
               {status === "sending" ? "Sending…" : "Send Message"}
             </button>

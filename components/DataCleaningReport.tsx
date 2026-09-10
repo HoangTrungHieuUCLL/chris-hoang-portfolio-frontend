@@ -35,7 +35,7 @@ export default function DataCleaningReport() {
           <div className="flex flex-wrap items-center gap-6">
             <Link
               href={`/reports/${report.slug}`}
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium transition hover:opacity-80 active:scale-[0.97]"
             >
               Read the Report
             </Link>

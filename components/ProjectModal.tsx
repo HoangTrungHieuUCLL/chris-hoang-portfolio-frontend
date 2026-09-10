@@ -17,11 +17,11 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/60 backdrop-blur-sm p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[28px] bg-paper"
+        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[28px] bg-paper animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {project.image_url && (
@@ -33,7 +33,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-paper text-ink flex items-center justify-center shadow-md hover:opacity-80 transition-opacity"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-paper text-ink flex items-center justify-center shadow-md transition hover:opacity-80 active:scale-90"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
@@ -63,7 +63,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
                   href={project.link_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-ink text-paper px-6 py-2.5 text-sm font-medium hover:opacity-80 transition-opacity"
+                  className="rounded-full bg-ink text-paper px-6 py-2.5 text-sm font-medium transition hover:opacity-80 active:scale-[0.97]"
                 >
                   {project.link_label ?? "View Project"} ↗
                 </a>

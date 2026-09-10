@@ -84,7 +84,7 @@ export default function AmazonSalesDataCleaningReportPage() {
               href={report.notebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium transition hover:opacity-80 active:scale-[0.97]"
             >
               View the Full Notebook ↗
             </a>
@@ -189,13 +189,13 @@ export default function AmazonSalesDataCleaningReportPage() {
               href={report.notebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium transition hover:opacity-80 active:scale-[0.97]"
             >
               View the Notebook on GitHub ↗
             </a>
             <Link
               href="/#projects"
-              className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
+              className="rounded-full border border-line px-7 py-3 text-[15px] font-medium transition hover:bg-mist active:scale-[0.97]"
             >
               Back to Projects
             </Link>

@@ -76,13 +76,13 @@ export default function AmazonSalesDashboardPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/reports/amazon-sales-data-cleaning"
-              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium hover:opacity-80 transition-opacity"
+              className="rounded-full bg-ink text-paper px-7 py-3 text-[15px] font-medium transition hover:opacity-80 active:scale-[0.97]"
             >
               Read the Data Cleaning Report
             </Link>
             <Link
               href="/#projects"
-              className="rounded-full border border-line px-7 py-3 text-[15px] font-medium hover:bg-mist transition-colors"
+              className="rounded-full border border-line px-7 py-3 text-[15px] font-medium transition hover:bg-mist active:scale-[0.97]"
             >
               Back to Projects
             </Link>

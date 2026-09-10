@@ -27,13 +27,13 @@ export default function Nav() {
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             href="#skills"
-            className="text-[12px] sm:text-[13px] font-medium bg-ink text-paper rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap hover:opacity-80 transition-opacity"
+            className="text-[12px] sm:text-[13px] font-medium bg-ink text-paper rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap transition hover:opacity-80 active:scale-[0.97]"
           >
             Skills Overview
           </a>
           <a
             href="#projects"
-            className="text-[12px] sm:text-[13px] font-medium bg-paper border border-line rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap hover:bg-mist transition-colors"
+            className="text-[12px] sm:text-[13px] font-medium bg-paper border border-line rounded-full px-3 sm:px-4 py-1.5 whitespace-nowrap transition hover:bg-mist active:scale-[0.97]"
           >
             View Projects
           </a>

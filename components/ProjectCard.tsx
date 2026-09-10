@@ -13,7 +13,7 @@ export default function ProjectCard({
       type="button"
       onClick={() => onExpand(project)}
       aria-label={`More about ${project.name}`}
-      className="group relative shrink-0 snap-start w-[82vw] sm:w-[440px] lg:w-[520px] h-[460px] rounded-[28px] overflow-hidden bg-ink text-left"
+      className="group relative shrink-0 snap-start w-[82vw] sm:w-[440px] lg:w-[520px] h-[460px] rounded-[28px] overflow-hidden bg-ink text-left transition-transform duration-200 ease-out active:scale-[0.99]"
     >
       {project.image_url ? (
         <Image
@@ -21,7 +21,7 @@ export default function ProjectCard({
           alt=""
           fill
           sizes="(min-width: 1024px) 520px, (min-width: 640px) 440px, 82vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       ) : null}
 
