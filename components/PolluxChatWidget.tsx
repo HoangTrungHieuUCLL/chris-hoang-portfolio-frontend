@@ -17,13 +17,35 @@ const GREETING_DELAY_MS = 1200;
  * The panel is only ever mounted after the first open, then kept mounted
  * (just hidden via CSS on close) so the conversation and scroll position
  * survive closing and reopening the widget without refetching.
+ *
+ * On the homepage, Hero embeds its own always-open copy of the chat (see
+ * components/Hero.tsx) - this floating one would just be redundant clutter
+ * on top of it, so it stays hidden entirely until the visitor scrolls past
+ * Hero's `#top` section. Pages with no `#top` (the dashboard/report pages)
+ * have no embedded chat to defer to, so this renders immediately there,
+ * same as before this change.
  */
 export default function PolluxChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasOpenedOnce, setHasOpenedOnce] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
+    const heroSection = document.getElementById("top");
+    if (!heroSection) {
+      setPastHero(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(heroSection);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!pastHero) return;
     let seen = false;
     try {
       seen = localStorage.getItem(GREETING_SEEN_KEY) === "1";
@@ -34,7 +56,7 @@ export default function PolluxChatWidget() {
     if (seen) return;
     const timer = setTimeout(() => setShowGreeting(true), GREETING_DELAY_MS);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pastHero]);
 
   function dismissGreeting() {
     setShowGreeting(false);
@@ -54,8 +76,10 @@ export default function PolluxChatWidget() {
     });
   }
 
+  if (!pastHero) return null;
+
   return (
-    <div className={styles.widgetRoot}>
+    <div className={`${styles.widgetRoot} ${styles.widgetRootFloating}`}>
       {hasOpenedOnce && (
         <div
           aria-hidden={!isOpen}

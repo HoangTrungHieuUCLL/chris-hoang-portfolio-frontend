@@ -15,11 +15,41 @@
   --chat-composer-radius: 28px;
   --chat-user-radius: 20px;
 
+  font-family: var(--chat-font);
+}
+
+/* The floating bubble/panel, present once the visitor has scrolled past the
+   Hero's embedded chat (see PolluxChatWidget's IntersectionObserver). */
+.widgetRootFloating {
   position: fixed;
   z-index: 9999;
   right: 20px;
   bottom: 20px;
-  font-family: var(--chat-font);
+}
+
+/* The Hero's copy of the chat, laid out in normal document flow instead of
+   pinned to the viewport corner. */
+.widgetRootEmbedded {
+  position: relative;
+  width: 100%;
+}
+
+.embeddedPanel {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  border: 1px solid var(--chat-border);
+  border-radius: 20px;
+  background: var(--chat-background);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+  color: var(--chat-text);
+}
+
+@media (max-width: 480px) {
+  .embeddedPanel {
+    height: 440px;
+  }
 }
 
 .bubble {

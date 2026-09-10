@@ -15,6 +15,28 @@ import { isVisitorKind, type VisitorKind } from "@/lib/letta/visitor-kind";
 /** Matches the server's first page. "Load older messages" asks for one more. */
 const HISTORY_PAGE = 100;
 
+/**
+ * The Hero's embedded chat and the floating widget's chat are two separate
+ * `useChatSession()` instances (see chat-panel.tsx), so a visitor who
+ * answers "Are you a recruiter?" in one and hasn't sent a message yet (the
+ * server only learns the answer once it rides along with the first POST,
+ * see route.ts) would otherwise get asked again in the other. Mirroring the
+ * answer here - same non-identifying, per-browser pattern as
+ * PolluxChatWidget's greeting-seen flag - closes that gap without touching
+ * the server contract.
+ */
+const VISITOR_KIND_KEY = "pollux_visitor_kind";
+
+function readStoredVisitorKind(): VisitorKind | undefined {
+  if (typeof window === "undefined") return undefined;
+  try {
+    const stored = window.localStorage.getItem(VISITOR_KIND_KEY);
+    return isVisitorKind(stored) ? stored : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 type BootstrapResponse = {
   conversationId: string | null;
   rows: BrowserRow[];
@@ -55,9 +77,23 @@ export function useChatSession() {
   const [hasPendingApproval, setHasPendingApproval] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   // Their answer to "Are you a recruiter?" - restored from the signed cookie
-  // by the bootstrap, or set here when they answer the gate. `undefined`
-  // means "not answered yet"; the gate below is what asks.
-  const [visitorKind, setVisitorKind] = useState<VisitorKind>();
+  // by the bootstrap, from localStorage (see above) if the cookie doesn't
+  // have it yet, or set here when they answer the gate. `undefined` means
+  // "not answered yet"; the gate below is what asks.
+  const [visitorKind, setVisitorKind] = useState<VisitorKind | undefined>(readStoredVisitorKind);
+
+  useEffect(() => {
+    try {
+      if (visitorKind) {
+        window.localStorage.setItem(VISITOR_KIND_KEY, visitorKind);
+      } else {
+        window.localStorage.removeItem(VISITOR_KIND_KEY);
+      }
+    } catch {
+      // Storage unavailable - the answer still works for this session via
+      // React state, it just won't be remembered by a second widget instance.
+    }
+  }, [visitorKind]);
 
   // `retry`, `error`, and the terminal result are turn-level signals rather than
   // rows, so they are applied to the trailing message here.

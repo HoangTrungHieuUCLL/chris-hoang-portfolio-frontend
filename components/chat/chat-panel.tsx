@@ -14,8 +14,25 @@ import styles from "@/styles/pollux-chat.module.css";
  * from). Mounted once, on first open, by PolluxChatWidget, and then kept
  * mounted (just visually hidden) so closing and reopening the bubble never
  * re-fetches the conversation from scratch.
+ *
+ * `embedded` is for the Hero's copy: always open, part of the normal page
+ * flow rather than a dialog, so there is nothing for a close button to do -
+ * it renders the delete button but not the X. Hero's instance and the
+ * floating widget's instance are two separate `useChatSession()` calls (two
+ * separate conversations views of the same server-side conversation,
+ * reconciled through the visitor's cookie on each one's own bootstrap) -
+ * not the same mounted component, so there is no shared live state between
+ * them beyond what the server persists.
  */
-export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function ChatPanel({
+  isOpen,
+  onClose,
+  embedded = false,
+}: {
+  isOpen: boolean;
+  onClose?: () => void;
+  embedded?: boolean;
+}) {
   const chat = useChatSession();
   // Re-scrolls to the latest message whenever the panel opens.
   const viewportRef = useFollowOutput(chat.messages, String(isOpen));
@@ -51,16 +68,18 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               </svg>
             </button>
           )}
-          <button
-            aria-label="Close chat"
-            className={styles.panelClose}
-            onClick={onClose}
-            type="button"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
-            </svg>
-          </button>
+          {!embedded && onClose && (
+            <button
+              aria-label="Close chat"
+              className={styles.panelClose}
+              onClick={onClose}
+              type="button"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
         </div>
       </header>
 
