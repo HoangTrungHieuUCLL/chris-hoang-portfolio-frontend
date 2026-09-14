@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Inter, Rubik } from "next/font/google";
-import { getVokabelStats } from "@/lib/vokabel";
+import type { VokabelStats } from "@/lib/vokabel";
 import VokabelDashboard from "@/app/dashboards/vokabel/VokabelDashboard";
 import "@/app/dashboards/vokabel/vokabel-theme.css";
 
@@ -7,8 +10,29 @@ import "@/app/dashboards/vokabel/vokabel-theme.css";
 const vokabelSans = Inter({ subsets: ["latin"], variable: "--font-vokabel-sans" });
 const vokabelDisplay = Rubik({ subsets: ["latin"], weight: ["800", "900"], variable: "--font-vokabel-display" });
 
-export default async function VokabelDashboardTeaser() {
-  const stats = await getVokabelStats();
+const VOKABEL_API_URL = process.env.NEXT_PUBLIC_VOKABEL_API_URL ?? "http://localhost:8001";
+
+export default function VokabelDashboardTeaser() {
+  // undefined = still loading, null = fetch failed, otherwise the real stats.
+  // Fetched client-side (this homepage route is otherwise statically
+  // prerendered) so a flaky build-time network path can't bake a stale
+  // "unavailable" state into the static page for the next few minutes.
+  const [stats, setStats] = useState<VokabelStats | null | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${VOKABEL_API_URL}/public/stats`)
+      .then((res) => (res.ok ? (res.json() as Promise<VokabelStats>) : null))
+      .then((data) => {
+        if (!cancelled) setStats(data);
+      })
+      .catch(() => {
+        if (!cancelled) setStats(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section id="vokabel" className="max-w-content mx-auto section-pad py-28">
@@ -22,8 +46,8 @@ export default async function VokabelDashboardTeaser() {
           <p className="text-lg text-ink leading-relaxed mb-6">
             A personal German vocabulary tracker: a FastAPI + PostgreSQL backend behind a separate React +
             TypeScript frontend. What&apos;s on the right isn&apos;t a screenshot -- it&apos;s a live API call.
-            This section fetches Vokabel&apos;s own public, read-only <code>/public/stats</code> endpoint at
-            request time and renders the result using Vokabel&apos;s actual design system.
+            This section fetches Vokabel&apos;s own public, read-only <code>/public/stats</code> endpoint right
+            in your browser and renders the result using Vokabel&apos;s actual design system.
           </p>
           <a
             href="https://github.com/HoangTrungHieuUCLL/vokabel-frontend"
@@ -36,7 +60,14 @@ export default async function VokabelDashboardTeaser() {
         </div>
 
         <div className={`lg:col-span-3 ${vokabelSans.variable} ${vokabelDisplay.variable}`}>
-          <VokabelDashboard stats={stats} />
+          {stats === undefined ? (
+            <div className="vokabel-scope sticker p-6 text-center">
+              <p className="eyebrow mb-1">Vokabel</p>
+              <p style={{ color: "var(--color-ink-secondary)" }}>Loading live stats…</p>
+            </div>
+          ) : (
+            <VokabelDashboard stats={stats} />
+          )}
         </div>
       </div>
     </section>
