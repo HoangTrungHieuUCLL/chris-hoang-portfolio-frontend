@@ -1,0 +1,88 @@
+/* Vokabel's own design tokens (copied 1:1 from vokabel-frontend/src/index.css),
+   scoped under .vokabel-scope so nothing here leaks into the rest of the
+   portfolio site, which has its own separate design system. */
+
+.vokabel-scope {
+  --color-bg: #fffbea;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f4efd6;
+  --color-border: #141414;
+  --color-border-soft: #e3dcbd;
+
+  --color-ink: #141414;
+  --color-ink-secondary: #45433b;
+  --color-ink-tertiary: #6e6b5e;
+  --color-ink-placeholder: #a8a493;
+
+  --color-accent: #2e4bff;
+  --color-accent-strong: #2238e0;
+  --color-accent-soft: #dce2ff;
+
+  --color-highlight: #ffd02e;
+  --color-highlight-soft: #fff1b8;
+
+  --color-positive: #a6eb3c;
+  --color-positive-text: #2c6e00;
+  --color-negative: #e5213f;
+  --color-negative-text: #c5162f;
+
+  --color-type-nomen: #2e4bff;
+  --color-type-verb: #e5213f;
+  --color-type-adjektiv: #2c9e4a;
+  --color-type-adverb: #a259e6;
+  --color-type-praeposition: #d9791f;
+  --color-type-konjunktion: #0f9aa8;
+  --color-type-pronomen: #c23b8f;
+  --color-type-partikel: #8a7a1f;
+  --color-type-phrase: #5b6470;
+
+  --radius-card: 1.375rem;
+  --radius-control: 0.875rem;
+
+  --shadow-card: 4px 4px 0 0 var(--color-ink);
+  --shadow-pop: 3px 3px 0 0 var(--color-ink);
+
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-vokabel-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.vokabel-scope .headline {
+  font-family: var(--font-vokabel-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+}
+
+.vokabel-scope .eyebrow {
+  font-family: var(--font-vokabel-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+}
+
+.vokabel-scope .sticker {
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.vokabel-scope .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-ink);
+  font-family: var(--font-vokabel-display);
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}

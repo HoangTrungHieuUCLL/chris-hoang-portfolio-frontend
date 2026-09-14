@@ -6,7 +6,6 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import DataCleaningReport from "@/components/DataCleaningReport";
 import SalesDashboardTeaser from "@/components/SalesDashboardTeaser";
-import News from "@/components/News";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
@@ -39,9 +38,6 @@ export default async function Home() {
         </Reveal>
         <Reveal>
           <SalesDashboardTeaser />
-        </Reveal>
-        <Reveal>
-          <News />
         </Reveal>
         <Reveal>
           <Contact />
