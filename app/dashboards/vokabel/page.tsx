@@ -11,6 +11,13 @@ import "./vokabel-theme.css";
 const vokabelSans = Inter({ subsets: ["latin"], variable: "--font-vokabel-sans" });
 const vokabelDisplay = Rubik({ subsets: ["latin"], weight: ["800", "900"], variable: "--font-vokabel-display" });
 
+// Render per-request rather than prerendering at build time: the build step
+// runs in a separate, isolated environment from the deployed service and
+// hit-or-miss network access there shouldn't get baked into the static page
+// for the next 5 minutes. The fetch's own revalidate: 300 still caches the
+// data layer, so this doesn't mean re-fetching on every request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: `Vokabel - ${profile.name}`,
   description: "A personal German vocabulary tracker with its own API, live-fetched into this dashboard.",
