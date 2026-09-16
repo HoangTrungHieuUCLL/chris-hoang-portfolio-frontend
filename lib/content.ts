@@ -33,30 +33,40 @@ export type Experience = {
 
 export const experience: Experience[] = [
   {
+    role: "AI Engineer",
+    org: "HRNext.vn (Freelance)",
+    period: "Aug 2025 - Present",
+    bullets: [
+      "Building the AI matching layer for an HR platform: candidates to roles, and roles to candidates.",
+      "Fine-tuned a BERT model for named-entity recognition on CVs, pulling structured fields out of unstructured resume documents so they can be matched instead of keyword-searched. LayoutLM reads document layout rather than flat text, and DBSCAN clusters similar profiles.",
+      "Extended matching into reverse search, so employers can discover candidates directly instead of waiting for applications to come in.",
+      "Built and containerised the service end to end: Python API, PostgreSQL, Docker Compose for local parity across frontend, backend and database, and a test suite alongside the model code. Deployed on Railway under its own subdomain.",
+    ],
+  },
+  {
     role: "Data Analyst",
     org: "IKEA Belgium (Internship)",
     period: "Feb 2026 - May 2026",
     bullets: [
-      "Built data pipelines and scheduled reporting, transforming complex data into actionable insights that drive improvements in digital experience and conversion.",
-      "Designed and enhanced Power BI dashboards, and engineered BigQuery SQL workflows so analysts can reliably self-serve insights.",
-      "Deployed ML models to analyse large datasets and delivered clear, data-driven recommendations to stakeholders.",
+      "Data analytics for the eCommerce team, working across Marketing, Sales and Design to turn business questions into evidence.",
+      "Built an end-to-end automated pipeline forecasting weekly sales through the end of the following fiscal year, covering ingestion, transformation and delivery. IKEA Global approached the team to understand the architecture.",
+      "Analysed the growth drivers behind Click&Collect using machine learning to quantify each factor's contribution. The findings gave the executive team the evidence to change service pricing strategy, which went into testing in April 2026.",
+      "Sourced and reconciled inconsistent data across eight Belgian stores by tracking down data owners in different teams, then built a Power BI dashboard putting store KPIs and country-average benchmarks in one executive view.",
+      "Engineered BigQuery SQL workflows and data models so analysts could pull insights without waiting on someone else's query.",
+      "Built a sales prediction application letting users supply their own variables and get predicted sales back.",
+      "Tools: SQL, Python, BigQuery, Google Cloud Platform, Power BI, Apache Airflow, PySpark, Excel",
     ],
   },
   {
-    role: "Server Administrator",
+    role: "IT Operations Analyst",
     org: "Rakuten Bank, Ltd. (Japan)",
     period: "Apr 2021 - Jul 2023",
     bullets: [
-      "Monitored and maintained servers and network devices (Zabbix) across Windows Server, RedHat, Linux, Oracle Solaris, and VMware.",
-      "Ran daily, monthly, and yearly backup and disaster-recovery procedures, and composed standard operating procedures.",
-    ],
-  },
-  {
-    role: "IT Support",
-    org: "Kyushu Institute of Information Sciences (Japan)",
-    period: "Jan 2020 - Mar 2021",
-    bullets: [
-      "Provided hardware and software support and organised classes to raise cybersecurity awareness among teachers and students.",
+      "Monitored operational metrics (CPU, memory, disk, network traffic, logs, SNMP traps) across production servers and network devices, diagnosing incidents from time-series data and log analysis.",
+      "Built an Excel VBA tool to track and consolidate server alerts automatically, cutting daily monitoring time from 5 hours to 1.",
+      "Investigated incidents across teams by identifying system users, reconstructing what happened, and agreeing remediation with the people involved.",
+      "Authored standard operating procedures adopted by the team, covering monitoring, maintenance and backup routines.",
+      "Ran scheduled backup and recovery operations and monthly hardware inspections for the bank's server estate.",
     ],
   },
 ];
