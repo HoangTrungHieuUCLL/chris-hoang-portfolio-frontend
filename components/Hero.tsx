@@ -2,7 +2,6 @@ import Image from "next/image";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import HeroFeaturedWork from "@/components/HeroFeaturedWork";
-import RoleLanePills from "@/components/RoleLanePills";
 import { education, profile } from "@/lib/content";
 import chatStyles from "@/styles/pollux-chat.module.css";
 
@@ -11,14 +10,13 @@ const socialLinks = [
   { href: profile.social.linkedin, label: "LinkedIn", Icon: SiLinkedin },
 ];
 
-// Everything a recruiter needs before scrolling: who Chris is, which lane to
-// file him under, whether they can hire him at all (visa, availability), and a
-// way to just ask instead of reading.
+// Everything a recruiter needs before scrolling: who Chris is, whether they can
+// hire him at all (visa, availability), and a way to just ask instead of
+// reading.
 //
-// The facts below the name are plain text rather than more pills on purpose -
-// eight extra badges would bury the identity row they sit under. Emphasis here
-// is weight, never colour: hue is reserved for the three lanes, so colouring an
-// availability date would imply a lane that doesn't exist.
+// The facts below the name are plain text rather than pills on purpose - eight
+// badges would bury the identity row they sit under, and emphasis reads just as
+// well through weight.
 export default function Hero() {
   const degree = education[0];
 
@@ -44,10 +42,8 @@ export default function Hero() {
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-tightest leading-tight">
                 {profile.name}
               </h1>
-              <p className="mt-1 text-sm text-subtle">{profile.location}</p>
-              <div className="mt-3">
-                <RoleLanePills />
-              </div>
+              <p className="mt-1 text-base">{profile.title}</p>
+              <p className="mt-0.5 text-sm text-subtle">{profile.location}</p>
             </div>
           </div>
 

@@ -10,14 +10,13 @@ import SalesDashboardTeaser from "@/components/SalesDashboardTeaser";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
-import { RoleLaneProvider } from "@/components/RoleLaneProvider";
 import { getProjects } from "@/lib/api";
 
 export default async function Home() {
   const projects = await getProjects();
 
   return (
-    <RoleLaneProvider>
+    <>
       <Nav />
       <main>
         {/* Hero renders immediately, no entrance delay - everything below it
@@ -49,6 +48,6 @@ export default async function Home() {
         </Reveal>
       </main>
       <Footer />
-    </RoleLaneProvider>
+    </>
   );
 }

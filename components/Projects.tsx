@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project } from "@/lib/api";
-import { useRoleLane } from "@/components/RoleLaneProvider";
-import { rolesForProject } from "@/lib/roles";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 
@@ -23,7 +21,6 @@ export default function Projects({ projects }: { projects: Project[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
-  const { role } = useRoleLane();
 
   const ordered = useMemo(() => {
     const bySlug = new Map<string, Project>(projects.map((p) => [p.slug, p] as [string, Project]));
@@ -31,19 +28,10 @@ export default function Projects({ projects }: { projects: Project[] }) {
     const highlightedSlugs = new Set(highlighted.map((p) => p.slug));
     const rest = projects.filter((p) => !highlightedSlugs.has(p.slug));
 
-    // Selected lane first, everything else after, order preserved within each
-    // group - so curation still decides the running order and the lane only
-    // decides which curated projects lead. Nothing is filtered out: work that
-    // spans lanes stays visible, and every project stays in the DOM.
-    const laneFirst = (list: Project[]) => [
-      ...list.filter((p) => rolesForProject(p.slug).includes(role)),
-      ...list.filter((p) => !rolesForProject(p.slug).includes(role)),
-    ];
-
     // Falls back to plain project order if the curated slugs ever drift from
     // what the API actually returns, so the section never renders empty.
-    return highlighted.length > 0 ? [...laneFirst(highlighted), ...laneFirst(rest)] : laneFirst(projects);
-  }, [projects, role]);
+    return highlighted.length > 0 ? [...highlighted, ...rest] : projects;
+  }, [projects]);
 
   function updateEdges() {
     const el = scrollerRef.current;
@@ -55,12 +43,6 @@ export default function Projects({ projects }: { projects: Project[] }) {
   useEffect(() => {
     updateEdges();
   }, [ordered.length]);
-
-  // Switching lanes promotes different cards to the front, which is invisible
-  // to someone already scrolled into the row - so bring them back to the start.
-  useEffect(() => {
-    scrollerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-  }, [role]);
 
   function scrollByPage(direction: 1 | -1) {
     const el = scrollerRef.current;
@@ -133,19 +115,9 @@ export default function Projects({ projects }: { projects: Project[] }) {
               aria-hidden
               className="shrink-0 snap-start bg-mist w-6 sm:w-10 lg:w-[max(0px,calc((100vw_-_1120px)/2))]"
             />
-            {ordered.map((project) => {
-              // An untagged project belongs to no lane, so it is never "the
-              // wrong lane" - only tagged work outside the selection dims.
-              const tags = rolesForProject(project.slug);
-              return (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onExpand={setExpanded}
-                  dimmed={tags.length > 0 && !tags.includes(role)}
-                />
-              );
-            })}
+            {ordered.map((project) => (
+              <ProjectCard key={project.id} project={project} onExpand={setExpanded} />
+            ))}
           </div>
         </div>
       )}
