@@ -12,6 +12,16 @@
   --chat-border: #d2d2d7; /* chrispy.world `line` */
   --chat-sidebar-border: #ececee;
   --chat-error: #dc2626;
+  /* Pollux's own accent, used nowhere else on the site - the chat announces
+     itself by being the one chromatically distinct surface rather than by
+     being loud. The site's `role.*` hues are reserved for project lanes, so
+     reusing one here would imply a lane the chat doesn't belong to.
+     `accent` is the dark half (5.3:1 on white, for text and borders);
+     `accent-surface` is the bright half, only ever used as a fill. */
+  --chat-accent: #0b7a63;
+  --chat-accent-surface: #2ed3a7;
+  --chat-accent-on-surface: #06251d;
+  --chat-accent-tint: rgba(11, 122, 99, 0.07);
   --chat-composer-radius: 28px;
   --chat-user-radius: 20px;
 
@@ -289,6 +299,38 @@
   line-height: 1.5;
 }
 
+/* Openers a visitor can click instead of composing a cold first question -
+   the main thing standing between a recruiter and actually using the chat. */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.suggestion {
+  border: 1px solid var(--chat-accent);
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--chat-accent-tint);
+  color: var(--chat-accent);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.suggestion:hover {
+  background: rgba(11, 122, 99, 0.15);
+}
+
+.suggestion:focus-visible {
+  outline: 2px solid var(--chat-accent);
+  outline-offset: 2px;
+}
+
 .message {
   margin-bottom: 20px;
   font-size: 0.9375rem;
@@ -544,8 +586,8 @@
   flex-shrink: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--chat-text);
-  color: var(--chat-background);
+  background: var(--chat-accent-surface);
+  color: var(--chat-accent-on-surface);
   font-size: 1.125rem;
   line-height: 1;
   transition: transform 150ms ease, background-color 150ms ease;

@@ -1,65 +1,102 @@
 import Image from "next/image";
+import { SiGithub, SiLinkedin } from "react-icons/si";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import HeroFeaturedWork from "@/components/HeroFeaturedWork";
-import { profile } from "@/lib/content";
+import RoleLanePills from "@/components/RoleLanePills";
+import { education, profile } from "@/lib/content";
 import chatStyles from "@/styles/pollux-chat.module.css";
 
-// Playful variants on profile.title, just for this chip row - profile.title
-// itself stays the formal "Data Analyst & AI Engineer" used in <title> and
-// Open Graph metadata (app/layout.tsx).
-const roleChips = ["Data Analyst", "Data Engineer", "Enthusiastic AI Engineer", "Beautiful design lover"];
+const socialLinks = [
+  { href: profile.social.github, label: "GitHub", Icon: SiGithub },
+  { href: profile.social.linkedin, label: "LinkedIn", Icon: SiLinkedin },
+];
 
-// One shared look for every pill under the name - role chips, location, and
-// the "Are you looking for..." line - so they read as one family instead of
-// three different sizes/colors.
-const chipClass = "inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm text-subtle";
-
-// Everything a first-time, non-technical visitor needs without scrolling:
-// who Chris is, what he's looking for, a way to just ask ("chat with
-// Pollux" instead of reading), and proof of work. The floating widget
-// (PolluxChatWidget, mounted globally) stays hidden while this section is
-// in view and only appears once the visitor scrolls past it - see its
-// IntersectionObserver on this section's `#top` id.
+// Everything a recruiter needs before scrolling: who Chris is, which lane to
+// file him under, whether they can hire him at all (visa, availability), and a
+// way to just ask instead of reading.
+//
+// The facts below the name are plain text rather than more pills on purpose -
+// eight extra badges would bury the identity row they sit under. Emphasis here
+// is weight, never colour: hue is reserved for the three lanes, so colouring an
+// availability date would imply a lane that doesn't exist.
 export default function Hero() {
+  const degree = education[0];
+
   return (
     <section id="top" className="relative">
       {/* pt-20/md:pt-24 clears the fixed h-14 Nav (bg-paper/70 backdrop-blur)
           with room to spare - pt-14 (exactly the Nav's height) left the
           avatar touching the Nav's bottom edge on phone screens. */}
       <div className="max-w-content mx-auto section-pad pt-20 pb-6 md:pt-24 md:pb-8">
-        <div className="flex flex-wrap items-start gap-5 sm:gap-6">
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full overflow-hidden ring-1 ring-line">
-            <Image
-              src="/chris-hoang-cover-2.jpeg"
-              alt={profile.name}
-              fill
-              sizes="(min-width: 640px) 64px, 56px"
-              className="object-cover"
-            />
+        <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+          <div className="flex items-start gap-5 sm:gap-6 min-w-0">
+            <div className="relative w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full overflow-hidden ring-1 ring-line">
+              <Image
+                src="/chris-hoang-cover-2.jpeg"
+                alt={profile.name}
+                fill
+                sizes="(min-width: 640px) 64px, 56px"
+                className="object-cover"
+              />
+            </div>
+
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tightest leading-tight">
+                {profile.name}
+              </h1>
+              <p className="mt-1 text-sm text-subtle">{profile.location}</p>
+              <div className="mt-3">
+                <RoleLanePills />
+              </div>
+            </div>
           </div>
 
-          <div className="min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tightest leading-tight">
-              {profile.name}
-            </h1>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {roleChips.map((role) => (
-                <span key={role} className={chipClass}>
-                  {role}
-                </span>
-              ))}
-              <span className={chipClass}>{profile.location}</span>
-            </div>
-            <p className={`mt-2 ${chipClass}`}>
-              Are you looking for a Data Analyst, Data Engineer or AI Engineer?
-            </p>
+          <div className="flex gap-2">
+            {socialLinks.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-sm transition hover:bg-mist"
+              >
+                <Icon aria-hidden className="w-3.5 h-3.5" />
+                {label}
+              </a>
+            ))}
           </div>
+        </div>
+
+        <div className="mt-6 space-y-2 text-[13.5px] leading-relaxed text-subtle">
+          <p>
+            <span className="text-ink font-medium">{profile.visaNote}</span>
+            <span className="px-2 text-line">·</span>
+            <span className="text-ink font-medium">{profile.availableFrom}</span>
+          </p>
+          {degree.note && (
+            <p>
+              <span className="text-ink font-medium">{degree.note}</span>
+              <span className="px-2 text-line">·</span>
+              {degree.degree}, {degree.school}
+            </p>
+          )}
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+            {profile.languages.map((language) => (
+              <span key={language.name} className="inline-flex items-center gap-1.5">
+                {language.name}
+                <span className="rounded bg-mist px-1.5 py-0.5 text-[11px] text-ink">{language.level}</span>
+              </span>
+            ))}
+          </p>
         </div>
       </div>
 
       <div className="max-w-content mx-auto section-pad pb-10 md:pb-14 grid lg:grid-cols-5 gap-6 items-stretch">
         <div className={`${chatStyles.widgetRoot} ${chatStyles.widgetRootEmbedded} lg:col-span-3`}>
-          <p className="text-[13px] tracking-[0.2em] uppercase text-subtle mb-4">Ask Pollux</p>
+          <p className="text-[13px] text-subtle mb-4">
+            <span className="text-ink font-medium">Skip the scrolling</span> &mdash; ask Pollux, my own AI
+            agent, anything about my work.
+          </p>
           <div className={chatStyles.embeddedPanel}>
             <ChatPanel isOpen embedded />
           </div>

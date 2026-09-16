@@ -89,6 +89,7 @@ export function ChatPanel({
         isLoading={chat.isNavigating}
         isLoadingHistory={chat.isLoadingHistory}
         messages={chat.messages}
+        onAsk={chat.needsVisitorKind ? undefined : chat.sendText}
         onLoadOlderMessages={chat.loadOlderMessages}
         viewportRef={viewportRef}
       />

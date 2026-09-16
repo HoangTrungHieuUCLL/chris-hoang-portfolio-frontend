@@ -163,9 +163,17 @@ export function useChatSession() {
     }
   }
 
-  async function sendMessage(event: FormEvent<HTMLFormElement>) {
+  function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const text = input.trim();
+    void sendText(input);
+  }
+
+  /**
+   * The send path itself, taking text rather than a form event, so a suggested
+   * question can start a turn without a composer submit.
+   */
+  async function sendText(raw: string) {
+    const text = raw.trim();
     if (!text || isSending || isNavigating) return;
 
     // The OTID correlates the row rendered now with the message Letta persists.
@@ -261,6 +269,7 @@ export function useChatSession() {
     hasPendingApproval,
     loadOlderMessages,
     sendMessage,
+    sendText,
     deleteChat,
   };
 }

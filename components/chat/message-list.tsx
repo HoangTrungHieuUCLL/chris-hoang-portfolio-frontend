@@ -16,7 +16,19 @@ type MessageListProps = {
   // produces RefObject<HTMLDivElement>, and the `| null` union on top of
   // that made it a different, non-assignable type for the div's ref prop.
   viewportRef: RefObject<HTMLDivElement>;
+  /**
+   * Starts a turn from a suggested question. Omitted while the visitor-kind
+   * gate is still up: sending before it is answered would lose the one piece
+   * of context Pollux gets about who it is talking to.
+   */
+  onAsk?: (question: string) => void;
 };
+
+const SUGGESTED_QUESTIONS = [
+  "What kind of role is Chris after?",
+  "Walk me through the IKEA pipeline",
+  "When is he available?",
+];
 
 export function MessageList({
   messages,
@@ -26,6 +38,7 @@ export function MessageList({
   hasPendingApproval,
   onLoadOlderMessages,
   viewportRef,
+  onAsk,
 }: MessageListProps) {
   return (
     <div className={styles.thread} aria-live="polite" ref={viewportRef}>
@@ -41,6 +54,20 @@ export function MessageList({
             everything sent and received here is recorded and stored in an encrypted
             database &mdash; let&rsquo;s keep it professional.
           </p>
+          {onAsk && (
+            <div className={styles.suggestions}>
+              {SUGGESTED_QUESTIONS.map((question) => (
+                <button
+                  className={styles.suggestion}
+                  key={question}
+                  onClick={() => onAsk(question)}
+                  type="button"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
       {hasOlderMessages && !isLoading && (

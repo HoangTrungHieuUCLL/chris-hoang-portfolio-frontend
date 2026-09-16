@@ -4,6 +4,7 @@ export const profile = {
   tagline: "Data is powerful. Use it wisely.",
   location: "Munich, Germany",
   visaNote: "No visa sponsorship required",
+  availableFrom: "Available from 1 Nov 2026",
   email: "chris.hoang4271@gmail.com",
   phone: "+49 171 2930766",
   bio: [
@@ -71,12 +72,19 @@ export const experience: Experience[] = [
   },
 ];
 
-export const education = [
+export type Education = {
+  degree: string;
+  school: string;
+  period: string;
+  note?: string;
+};
+
+export const education: Education[] = [
   {
     degree: "Bachelor of Applied Computer Science",
     school: "UC Leuven-Limburg, Belgium",
     period: "Sep 2023 - Jun 2026",
-    note: "Magna cum laude",
+    note: "Magna cum laude, 77.58%",
   },
   {
     degree: "Bachelor of Informatics & Management",
